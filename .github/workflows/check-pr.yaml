@@ -1,0 +1,116 @@
+name: Check PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  generate-matrix:
+    name: Generate job matrices
+    runs-on: ubuntu-20.04
+
+    outputs:
+      packages-matrix: ${{ steps.packages-matrix.outputs.matrix }}
+
+    steps:
+      - name: Generate packages matrix
+        id: packages-matrix
+        uses: hellofresh/action-changed-files@v2
+        with:
+          pattern: src/(?P<package>[^/]+)/
+
+  check-root:
+    name: Check root
+    runs-on: ubuntu-20.04
+
+    permissions:
+      contents: read
+
+    container:
+      image: ghcr.io/yp-middle-python-24/ubuntu-ci:jammy-0.0.1
+      credentials:
+        username: ${{ secrets.ROBOT_GITHUB_USER }}
+        password: ${{ secrets.ROBOT_GITHUB_READ_PACKAGES_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          make ci-init
+
+      - name: Lint PR
+        run: |
+          make lint
+
+      - name: Test PR
+        run: |
+          make test
+
+  check-package:
+    name: Check package
+    runs-on: ubuntu-20.04
+    needs: [generate-matrix]
+    if: ${{ fromJson(needs.generate-matrix.outputs.packages-matrix).include[0] }}
+
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.generate-matrix.outputs.packages-matrix).include[*].package }}
+      fail-fast: false
+
+    permissions:
+      contents: read
+
+    container:
+      image: ghcr.io/yp-middle-python-24/ubuntu-ci:jammy-0.0.1
+      credentials:
+        username: ${{ secrets.ROBOT_GITHUB_USER }}
+        password: ${{ secrets.ROBOT_GITHUB_READ_PACKAGES_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to pypi
+        working-directory: src/${{ matrix.package }}
+        env:
+          PYPI_READER_PASSWORD: ${{ secrets.PYPI_READER_PASSWORD }}
+        run: |
+          make ci-login-pypi
+
+      - name: Install repository dependencies
+        run: |
+          make ci-init
+
+      - name: Install package dependencies
+        working-directory: src/${{ matrix.package }}
+        run: |
+          make init
+
+      - name: Lint Package
+        working-directory: src/${{ matrix.package }}
+        run: |
+          make lint
+
+      - name: Test Package
+        working-directory: src/${{ matrix.package }}
+        run: |
+          make ci-test
+
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-20.04
+    name: Final Results
+    needs: [check-package]
+    steps:
+      - run: |
+          result="${{ needs.check-package.result }}"
+          if [[ $result == "success" || $result == "skipped" ]]; then
+            exit 0
+          else
+            exit 1
+          fi
