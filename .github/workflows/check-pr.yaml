@@ -29,12 +29,6 @@ jobs:
     permissions:
       contents: read
 
-    container:
-      image: ghcr.io/yp-middle-python-24/ubuntu-ci:jammy-0.0.1
-      credentials:
-        username: ${{ secrets.ROBOT_GITHUB_USER }}
-        password: ${{ secrets.ROBOT_GITHUB_READ_PACKAGES_TOKEN }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -65,22 +59,9 @@ jobs:
     permissions:
       contents: read
 
-    container:
-      image: ghcr.io/yp-middle-python-24/ubuntu-ci:jammy-0.0.1
-      credentials:
-        username: ${{ secrets.ROBOT_GITHUB_USER }}
-        password: ${{ secrets.ROBOT_GITHUB_READ_PACKAGES_TOKEN }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Login to pypi
-        working-directory: src/${{ matrix.package }}
-        env:
-          PYPI_READER_PASSWORD: ${{ secrets.PYPI_READER_PASSWORD }}
-        run: |
-          make ci-login-pypi
 
       - name: Install repository dependencies
         run: |

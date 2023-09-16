@@ -13,8 +13,8 @@ profile = "black"
 
 [tool.poetry]
 authors = ["name <name@email.com>"]
-description = "[]"
-name = "example"
+description = "FastAPI Template Project using DDD"
+name = "FastAPI Exmaple"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
