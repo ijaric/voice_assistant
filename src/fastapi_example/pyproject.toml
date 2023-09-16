@@ -14,8 +14,8 @@ profile = "black"
 [tool.poetry]
 authors = ["name <name@email.com>"]
 description = "FastAPI Template Project using DDD"
-name = "FastAPI Exmaple"
-version = "0.1.0"
+name = "FastAPI Template"
+version = "0.0.1"
 
 [tool.poetry.dependencies]
 black = "^23.9.1"
