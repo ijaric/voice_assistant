@@ -28,7 +28,7 @@ class App:
         del self._faker_client
 
 
-if __name__ == "__main__":
+if __name__ == "__main__.py":
     app = App()
     try:
         app.run()
