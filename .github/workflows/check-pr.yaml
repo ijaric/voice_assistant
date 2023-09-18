@@ -21,7 +21,7 @@ jobs:
         uses: hellofresh/action-changed-files@v2
         with:
           pattern: src/(?P<package>[^/]+)/
-
+    
   check-root:
     name: Check root
     runs-on: ubuntu-20.04
@@ -32,6 +32,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
 
       - name: Install dependencies
         run: |
