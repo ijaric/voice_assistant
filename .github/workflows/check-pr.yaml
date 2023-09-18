@@ -21,7 +21,7 @@ jobs:
         uses: hellofresh/action-changed-files@v2
         with:
           pattern: src/(?P<package>[^/]+)/
-    
+
   check-root:
     name: Check root
     runs-on: ubuntu-20.04
