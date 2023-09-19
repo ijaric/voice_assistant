@@ -18,8 +18,12 @@ class BaseMixin:
 
     @declared_attr
     def created_at(cls):
-        return sqlalchemy.Column(sqlalchemy.DateTime, server_default=sqlalchemy.sql.func.now())
+        return sqlalchemy.Column(
+            sqlalchemy.DateTime, server_default=sqlalchemy.sql.func.now()
+        )
 
     @declared_attr
     def updated_at(cls):
-        return sqlalchemy.Column(sqlalchemy.DateTime, server_default=sqlalchemy.sql.func.now())
+        return sqlalchemy.Column(
+            sqlalchemy.DateTime, server_default=sqlalchemy.sql.func.now()
+        )

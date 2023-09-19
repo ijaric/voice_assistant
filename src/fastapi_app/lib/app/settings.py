@@ -1,10 +1,7 @@
 import functools
 
 import pydantic_settings
-from dotenv import load_dotenv
-from pydantic import Field
-
-load_dotenv(".env.dev")
+from pydantic import Field, field_validator
 
 
 class DbSettings(pydantic_settings.BaseSettings):
@@ -25,10 +22,16 @@ class ApiSettings(pydantic_settings.BaseSettings):
 
 
 class Settings(pydantic_settings.BaseSettings):
+    debug: str = "false"
     db: DbSettings = Field(default_factory=DbSettings)
     api: ApiSettings = Field(default_factory=ApiSettings)
 
     jwt_secret_key: str
+
+    @field_validator("debug")
+    @classmethod
+    def validate_debug(cls, v: str) -> bool:
+        return v.lower() == "true"
 
 
 @functools.lru_cache

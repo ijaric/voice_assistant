@@ -4,13 +4,13 @@ services:
   db:
     image: postgres:15.2
     environment:
-      POSTGRES_USER: ${db_user}
-      POSTGRES_PASSWORD: ${db_password}
-      POSTGRES_DB: ${db_name}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     env_file:
       - .env
     ports:
-      - "127.0.0.1:${db_port}:{db_port}"
+      - "127.0.0.1:${DB_PORT}:${DB_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     restart: always
@@ -20,7 +20,7 @@ services:
   api:
     build:
       context: .
-    container_name: fastapi_app
+    container_name: api
     image: fastapi_app
     restart: always
     entrypoint: ["/opt/app/entrypoint.sh"]
