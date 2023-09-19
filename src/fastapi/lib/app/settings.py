@@ -4,7 +4,7 @@ import pydantic_settings
 from dotenv import load_dotenv
 from pydantic import Field
 
-load_dotenv('.env.dev')
+load_dotenv(".env.dev")
 
 
 class DbSettings(pydantic_settings.BaseSettings):

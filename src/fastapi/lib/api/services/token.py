@@ -1,12 +1,13 @@
-from fastapi import FastAPI, HTTPException, Security, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
-from libs.api.schemas.entity import Token
-from libs.app import settings as libs_app_settings
 from pydantic import ValidationError
 
+from fastapi import FastAPI, HTTPException, Security, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from lib.api.schemas.entity import Token
+from lib.app import settings as lib_app_settings
+
 app = FastAPI()
-settings = libs_app_settings.get_settings()
+settings = lib_app_settings.get_settings()
 
 security = HTTPBearer()
 
@@ -24,4 +25,3 @@ def get_token_data(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
         )
-

@@ -1,10 +1,11 @@
 import typing
 
-from libs.app import settings as libs_app_settings
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
-settings = libs_app_settings.get_settings()
+from lib.app import settings as lib_app_settings
+
+settings = lib_app_settings.get_settings()
 
 # Создаём базовый класс для будущих моделей
 

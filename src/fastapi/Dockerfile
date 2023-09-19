@@ -9,7 +9,7 @@ RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install --no-dev
 
-COPY backend/bin bin
-COPY backend/libs libs
+COPY bin bin
+COPY lib lib
 COPY entrypoint.sh .
 RUN chmod +x /opt/app/entrypoint.sh

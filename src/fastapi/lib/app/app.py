@@ -2,7 +2,7 @@ import logging
 import logging.config as logging_config
 
 import fastapi
-import libs.api.handlers as admin_api_handlers
+import lib.api.handlers as admin_api_handlers
 
 from .logger import LOGGING
 from .settings import get_settings
@@ -28,7 +28,6 @@ class Application:
 
         # app.include_router(admin_api_handlers.user_router, prefix="/api/v1/users", tags=["users"])
         # app.include_router(admin_api_handlers.movie_router, prefix="/api/v1/movies", tags=["movies"])
-
 
         @app.on_event("startup")
         async def startup_event():

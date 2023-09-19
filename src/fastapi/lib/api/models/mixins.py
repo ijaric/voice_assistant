@@ -24,4 +24,3 @@ class BaseMixin:
     @declared_attr
     def updated_at(cls):
         return Column(DateTime, server_default=sqlalchemy.func.now())
-    
