@@ -33,5 +33,5 @@ def main() -> None:
         exit(os.EX_SOFTWARE)
 
 
-if __name__ == "__main__.py":
+if __name__ == "__main__":
     main()

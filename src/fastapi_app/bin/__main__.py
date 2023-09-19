@@ -1,16 +1,15 @@
 import logging
 
-import uvicorn
-
 import lib.app.app as app_module
-from lib.app import settings as libs_app_settings
+import uvicorn
+from lib.app import settings as app_settings
 
 logger = logging.getLogger(__name__)
 
 
 app_instance = app_module.Application()
 app = app_instance.create_app()
-settings = libs_app_settings.get_settings()
+settings = app_settings.get_settings()
 
 
 if __name__ == "__main__":

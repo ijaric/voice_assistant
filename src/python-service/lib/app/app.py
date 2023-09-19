@@ -4,11 +4,10 @@ import logging
 import typing
 
 import aiohttp.web as aiohttp_web
-import typing_extensions
-
 import lib.api.rest.v1.health as health_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings
+import typing_extensions
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +102,9 @@ class Application:
             logger.info("HTTP server has been interrupted")
         except BaseException as unexpected_error:
             logger.exception("HTTP server failed to start")
-            raise app_errors.StartServerError("HTTP server failed to start") from unexpected_error
+            raise app_errors.StartServerError(
+                "HTTP server failed to start"
+            ) from unexpected_error
 
     async def dispose(self) -> None:
         logger.info("Application is shutting down...")
@@ -121,7 +122,9 @@ class Application:
 
         if len(dispose_errors) != 0:
             logger.error("Application has shut down with errors")
-            raise app_errors.DisposeError("Application has shut down with errors, see logs above")
+            raise app_errors.DisposeError(
+                "Application has shut down with errors, see logs above"
+            )
 
         logger.info("Application has successfully shut down")
 

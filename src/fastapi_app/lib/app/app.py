@@ -1,8 +1,9 @@
 import logging
 import logging.config as logging_config
 
-import fastapi
 import lib.api.handlers as admin_api_handlers
+
+import fastapi
 
 from .logger import LOGGING
 from .settings import get_settings

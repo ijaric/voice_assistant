@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.1:${db_port}:5432"
+      - "${db_port}:{db_port}"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     restart: always
@@ -20,10 +20,12 @@ services:
   api:
     build:
       context: .
-    container_name: fastapi
+    container_name: fastapi_app
     image: fastapi_app
     restart: always
     entrypoint: ["/opt/app/entrypoint.sh"]
+    ports:
+      - "${server_port}:{server_port}"
     depends_on:
       - db
     env_file:
@@ -42,13 +44,6 @@ services:
       - "80:80"
     networks:
       - api_network
-
-  redis:
-    image: redis:7.0.11
-    restart: always
-    command: redis-server --bind 0.0.0.0
-    networks:
-      - backend_network
 
 volumes:
   postgres_data:

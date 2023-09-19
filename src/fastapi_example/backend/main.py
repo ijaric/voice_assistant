@@ -1,10 +1,9 @@
 import logging
 
-import faker
-
 import backend.user.handlers as user_handlers
 import backend.user.repositories as user_repositories
 import backend.user.services as user_services
+import faker
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +11,9 @@ logger = logging.getLogger(__name__)
 class App:
     def __init__(self):
         self._faker_client = faker.Faker()
-        self._user_faker_client2 = user_repositories.UserFakerClient2(self._faker_client)
+        self._user_faker_client2 = user_repositories.UserFakerClient2(
+            self._faker_client
+        )
         self._user_service = user_services.UserService(self._user_faker_client2)
 
         self._handler1 = user_handlers.UserHandler1(self._user_service)
@@ -28,7 +29,7 @@ class App:
         del self._faker_client
 
 
-if __name__ == "__main__.py":
+if __name__ == "__main__":
     app = App()
     try:
         app.run()
