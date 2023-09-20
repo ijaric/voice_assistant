@@ -1,7 +1,7 @@
 import logging
 import logging.config as logging_config
 
-import lib.api.handlers as api_handlers
+import lib.api.v1.handlers as api_handlers
 
 import fastapi
 

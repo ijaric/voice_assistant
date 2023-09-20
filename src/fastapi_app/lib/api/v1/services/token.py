@@ -1,5 +1,5 @@
 from jose import JWTError, jwt
-from lib.api import schemas as app_schemas
+from lib.api.v1 import schemas as app_schemas
 from lib.app import settings as app_settings
 from pydantic import ValidationError
 
