@@ -5,28 +5,24 @@ import pydantic_settings
 
 
 class DbSettings(pydantic_settings.BaseSettings):
-    model_config = pydantic_settings.SettingsConfigDict(env_prefix="db_")
-
-    host: str = "localhost"
-    port: int = 5432
-    user: str
-    password: str
-    name: str
+    host: str = pydantic.Field("127.0.0.1", validation_alias="db_host")
+    port: int = pydantic.Field(5432, validation_alias="db_port")
+    user: str = pydantic.Field(..., validation_alias="db_user")
+    password: str = pydantic.Field(..., validation_alias="db_password")
+    name: str = pydantic.Field("db_name", validation_alias="db_name")
 
 
 class ApiSettings(pydantic_settings.BaseSettings):
-    model_config = pydantic_settings.SettingsConfigDict(env_prefix="server_")
-
-    host: str = "0.0.0.0"
-    port: int = 8000
+    host: str = pydantic.Field("0.0.0.0", validation_alias="server_host")
+    port: int = pydantic.Field(8000, validation_alias="server_port")
 
 
 class Settings(pydantic_settings.BaseSettings):
-    debug: str = "false"
+    debug: str = pydantic.Field("false", validation_alias="debug")
     db: DbSettings = pydantic.Field(default_factory=lambda: DbSettings())
     api: ApiSettings = pydantic.Field(default_factory=lambda: ApiSettings())
 
-    jwt_secret_key: str = pydantic.Field(default=...)
+    jwt_secret_key: str = pydantic.Field(..., validation_alias="jwt_secret_key")
 
     @pydantic.field_validator("debug")
     @classmethod
