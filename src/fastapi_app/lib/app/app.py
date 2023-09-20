@@ -1,7 +1,7 @@
 import logging
 import logging.config as logging_config
 
-import lib.api.handlers as admin_api_handlers
+import lib.api.handlers as api_handlers
 
 import fastapi
 
@@ -27,8 +27,8 @@ class Application:
             default_response_class=fastapi.responses.ORJSONResponse,
         )
 
-        # app.include_router(admin_api_handlers.user_router, prefix="/api/v1/users", tags=["users"])
-        # app.include_router(admin_api_handlers.movie_router, prefix="/api/v1/movies", tags=["movies"])
+        # app.include_router(api_handlers.user_router, prefix="/api/v1/users", tags=["users"])
+        # app.include_router(api_handlers.movie_router, prefix="/api/v1/movies", tags=["movies"])
 
         @app.on_event("startup")
         async def startup_event():
