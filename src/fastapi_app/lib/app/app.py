@@ -3,8 +3,6 @@ import logging.config as logging_config
 
 import fastapi
 
-import lib.api.v1.handlers as api_handlers
-
 from .logger import LOGGING
 from .settings import get_settings
 

@@ -1,7 +1,7 @@
 import functools
 
+import pydantic
 import pydantic_settings
-from pydantic import Field, field_validator
 
 
 class DbSettings(pydantic_settings.BaseSettings):
@@ -23,12 +23,12 @@ class ApiSettings(pydantic_settings.BaseSettings):
 
 class Settings(pydantic_settings.BaseSettings):
     debug: str = "false"
-    db: DbSettings = Field(default_factory=DbSettings)
-    api: ApiSettings = Field(default_factory=ApiSettings)
+    db: DbSettings = pydantic.Field(default_factory=lambda: DbSettings())
+    api: ApiSettings = pydantic.Field(default_factory=lambda: ApiSettings())
 
-    jwt_secret_key: str
+    jwt_secret_key: str = pydantic.Field(default=...)
 
-    @field_validator("debug")
+    @pydantic.field_validator("debug")
     @classmethod
     def validate_debug(cls, v: str) -> bool:
         return v.lower() == "true"
