@@ -5,8 +5,7 @@ WORKDIR /opt/app
 ENV PYTHONPATH '/opt/app'
 
 COPY pyproject.toml ./
-RUN pip install poetry \
-    && poetry config virtualenvs.create false \
+RUN pip install poetry \    
     && poetry install --no-dev
 
 COPY bin bin
