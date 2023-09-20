@@ -1,7 +1,8 @@
 import logging
 
-import lib.app.app as app_module
 import uvicorn
+
+import lib.app.app as app_module
 from lib.app import settings as app_settings
 
 logger = logging.getLogger(__name__)
