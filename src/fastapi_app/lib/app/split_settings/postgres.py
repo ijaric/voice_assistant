@@ -12,6 +12,7 @@ class PostgresSettings(pydantic_settings.BaseSettings):
         extra="ignore",
     )
 
+    name: str = "database_name"
     host: str = "localhost"
     port: int = 5432
     user: str = "app"
