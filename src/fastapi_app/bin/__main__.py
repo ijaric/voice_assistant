@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 app_instance = app_module.Application()
 app = app_instance.create_app()
-settings = app_settings.get_settings()
+settings = app_settings.settings
 
 
 if __name__ == "__main__":
