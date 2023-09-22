@@ -1,14 +1,17 @@
 FROM python:3.11
 
+RUN mkdir --parents /opt/app
+COPY pyproject.toml /opt/app/pyproject.toml
+COPY poetry.lock /opt/app/poetry.lock
+COPY poetry.toml /opt/app/poetry.toml
+
 WORKDIR /opt/app
 
-ENV PYTHONPATH '/opt/app'
-
-COPY pyproject.toml ./
 RUN pip install poetry \    
     && poetry install --no-dev
 
-COPY bin bin
-COPY lib lib
-COPY entrypoint.sh .
+COPY bin /opt/app/bin
+COPY lib /opt/app/lib
+COPY entrypoint.sh /opt/app/entrypoint.sh
+
 RUN chmod +x /opt/app/entrypoint.sh
