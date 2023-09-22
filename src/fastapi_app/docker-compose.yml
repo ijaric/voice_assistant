@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:${DB_PORT}:${DB_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: always
+    networks:
+      - backend_network
+
+  api:
+    build:
+      context: .
+    container_name: api
+    image: fastapi_app
+    restart: always
+    entrypoint: ["/opt/app/entrypoint.sh"]
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - backend_network
+      - api_network
+
+  nginx:
+    image: nginx:1.23.4
+    volumes:
+      - ./nginx:/etc/nginx/:ro
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    networks:
+      - api_network
+
+volumes:
+  postgres_data:
+
+networks:
+  api_network:
+    driver: bridge
+  backend_network:
+    driver: bridge
