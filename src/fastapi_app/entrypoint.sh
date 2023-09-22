@@ -4,4 +4,4 @@ while ! (echo > /dev/tcp/db/5432) >/dev/null 2>&1; do
   sleep 1
 done
 
-exec .venv/bin/python -m bin
+exec python -m bin
