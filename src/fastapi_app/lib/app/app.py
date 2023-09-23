@@ -3,6 +3,8 @@ import logging.config as logging_config
 
 import fastapi
 
+import lib.api.v1.handlers as api_v1_handlers
+
 from .logger import LOGGING
 from .settings import get_settings
 
@@ -16,6 +18,38 @@ class Application:
         self.logger = logging.getLogger(__name__)
         self.producer = None
 
+    def setup_application(self, app: fastapi.FastAPI) -> fastapi.FastAPI:
+        logger.info("Initializing application")
+
+        # Global clients
+
+        logger.info("Initializing global clients")
+
+        # Clients
+
+        logger.info("Initializing clients")
+
+        # Repositories
+
+        logger.info("Initializing repositories")
+
+        # Caches
+
+        logger.info("Initializing caches")
+
+        # Services
+
+        logger.info("Initializing services")
+
+        # Handlers
+
+        logger.info("Initializing handlers")
+        app.include_router(api_v1_handlers.health.health_router, prefix="/api/v1/health", tags=["health"])
+
+        logger.info("Initializing application finished")
+
+        return app
+
     def create_app(self) -> fastapi.FastAPI:
         app = fastapi.FastAPI(
             title="FastAPI",
@@ -24,9 +58,7 @@ class Application:
             openapi_url="/api/openapi.json",
             default_response_class=fastapi.responses.ORJSONResponse,
         )
-
-        # app.include_router(api_handlers.user_router, prefix="/api/v1/users", tags=["users"])
-        # app.include_router(api_handlers.movie_router, prefix="/api/v1/movies", tags=["movies"])
+        app = self.setup_application(app)
 
         @app.on_event("startup")
         async def startup_event():
@@ -37,3 +69,9 @@ class Application:
             self.logger.info("Shutting down server")
 
         return app
+
+
+# Позволяет запускать через uvicorn lib.app.app:create_application --reload
+def create_application():
+    application = Application()
+    return application.create_app()
