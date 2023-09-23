@@ -14,6 +14,13 @@ class DBSettings(pydantic_settings.BaseSettings):
     user: str
     password: pydantic.SecretStr
 
+    pool_size: int
+    pool_pre_ping: bool
+    echo: bool
+    auto_commit: bool
+    auto_flush: bool
+    expire_on_commit: bool
+
     @property
     def dsn(self) -> str:
         """Get database DSN."""
@@ -36,3 +43,10 @@ class PostgresSettings(DBSettings):
     password: pydantic.SecretStr = pydantic.Field(
         default=..., validation_alias=pydantic.AliasChoices("password", "postgres_password")
     )
+
+    pool_size: int = 50
+    pool_pre_ping: bool = True
+    echo: bool = False
+    auto_commit: bool = False
+    auto_flush: bool = False
+    expire_on_commit: bool = False

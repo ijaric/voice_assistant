@@ -9,10 +9,19 @@ class AsyncDB:
     """Async DB connection."""
 
     def __init__(self, settings: app_settings.Settings):
-        self.database_dsn = settings.db.dsn
-        self.engine = sa_asyncio.create_async_engine(self.database_dsn, echo=settings.project.debug, future=True)
+        self.engine = sa_asyncio.create_async_engine(
+            url=settings.db.dsn,
+            pool_size=settings.db.pool_size,
+            pool_pre_ping=settings.db.pool_pre_ping,
+            echo=settings.db.echo,
+            future=True,
+        )
         self.async_session = sa_asyncio.async_sessionmaker(
-            self.engine, class_=sa_asyncio.AsyncSession, expire_on_commit=False
+            bind=self.engine,
+            autocommit=settings.db.auto_commit,
+            autoflush=settings.db.auto_flush,
+            expire_on_commit=settings.db.expire_on_commit,
+            class_=sa_asyncio.AsyncSession,
         )
 
 
