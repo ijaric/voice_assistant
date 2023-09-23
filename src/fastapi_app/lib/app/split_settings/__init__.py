@@ -1,12 +1,15 @@
 from .api import *
 from .logger import *
 from .postgres import *
+from .postgres import DBSettings, PostgresSettings
 from .project import *
 
 __all__ = [
     "ApiSettings",
+    "DBSettings",
     "LoggingSettings",
-    "get_logging_config",
+    "PostgresSettings",
     "PostgresSettings",
     "ProjectSettings",
+    "get_logging_config",
 ]

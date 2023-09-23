@@ -1,3 +1,7 @@
-# from libs.api.models.movies import *
-# from libs.api.models.notification_templates import *
-# from libs.api.models.users import *
+import sqlalchemy.orm
+
+
+class Base(sqlalchemy.orm.DeclarativeBase):
+    """Base Model Class for ORM Models and Alembic."""
+
+    pass

@@ -8,7 +8,7 @@ import lib.app.split_settings as app_split_settings
 
 class Settings(pydantic_settings.BaseSettings):
     api: app_split_settings.ApiSettings = pydantic.Field(default_factory=lambda: app_split_settings.ApiSettings())
-    postgres: app_split_settings.PostgresSettings = pydantic.Field(
+    db: app_split_settings.PostgresSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.PostgresSettings()
     )
     logger: app_split_settings.LoggingSettings = pydantic.Field(

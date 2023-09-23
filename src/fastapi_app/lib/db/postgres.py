@@ -1,38 +1,31 @@
 import typing
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
+import sqlalchemy.ext.asyncio as sa_asyncio
 
 import lib.app.settings as app_settings
 
-settings = app_settings.settings
-
-# Создаём базовый класс для будущих моделей
+# settings = app_settings.settings
 
 
-class Base(DeclarativeBase):
-    pass
-
-
-# Создаём движок
-# Настройки подключения к БД передаём из переменных окружения, которые заранее загружены в файл настроек
 class AsyncDB:
-    def __init__(self):
-        self.database_dsn = (
-            f"postgresql+asyncpg://{settings.db.user}:{settings.db.password}"
-            f"@{settings.db.host}:{settings.db.port}/{settings.db.name}"
+    """Async DB connection."""
+
+    def __init__(self, settings: app_settings.Settings):
+        self.database_dsn = settings.db.dsn
+        self.engine = sa_asyncio.create_async_engine(self.database_dsn, echo=settings.project.debug, future=True)
+        self.async_session = sa_asyncio.async_sessionmaker(
+            self.engine, class_=sa_asyncio.AsyncSession, expire_on_commit=False
         )
-        self.engine = create_async_engine(self.database_dsn, echo=settings.project.debug, future=True)
-        self.async_session = async_sessionmaker(self.engine, class_=AsyncSession, expire_on_commit=False)
 
 
-db = AsyncDB()
-
-
-async def get_session() -> typing.AsyncGenerator[AsyncSession, typing.Any]:
+async def get_session(settings: app_settings.Settings) -> typing.AsyncGenerator[sa_asyncio.AsyncSession, typing.Any]:
+    db = AsyncDB(settings)
     async with db.async_session() as session:
         try:
             yield session
         except Exception:
             await session.rollback()
             raise
+        finally:
+            await session.close()
+            await db.engine.dispose()
