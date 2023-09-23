@@ -1,8 +1,9 @@
 version: "3"
 
 services:
-  db:
+  postgres:
     image: postgres:15.2
+    restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -13,7 +14,6 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    restart: always
     networks:
       - backend_network
 
@@ -24,24 +24,27 @@ services:
     image: fastapi_app
     restart: always
     entrypoint: ["/opt/app/entrypoint.sh"]
+    env_file:
+      - .env
     ports:
       - "${API_PORT}:${API_PORT}"
     depends_on:
-      - db
-    env_file:
-      - .env
+      - postgres
     networks:
       - backend_network
       - api_network
 
   nginx:
-    image: nginx:1.23.4
+    image: nginx:1.25.1
+    env_file:
+      - .env
+    ports:
+      - "${NGINX_PORT}:${NGINX_PORT}"
     volumes:
-      - ./nginx:/etc/nginx/:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/templates:/etc/nginx/templates
     depends_on:
       - api
-    ports:
-      - "80:80"
     networks:
       - api_network
 
