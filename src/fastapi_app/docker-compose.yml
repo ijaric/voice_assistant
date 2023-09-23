@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.1:${DB_PORT}:${DB_PORT}"
+      - "127.0.0.1:${API_PORT}:${API_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     restart: always

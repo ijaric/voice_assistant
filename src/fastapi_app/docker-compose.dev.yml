@@ -25,7 +25,7 @@ services:
     restart: always
     entrypoint: ["/opt/app/entrypoint.sh"]
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${API_PORT}:${API_PORT}"
     depends_on:
       - db
     env_file:
