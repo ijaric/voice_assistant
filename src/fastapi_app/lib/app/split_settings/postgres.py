@@ -7,7 +7,7 @@ import lib.app.split_settings.utils as app_split_settings_utils
 class PostgresSettings(pydantic_settings.BaseSettings):
     model_config = pydantic_settings.SettingsConfigDict(
         env_file=app_split_settings_utils.ENV_PATH,
-        env_prefix="DB_",
+        env_prefix="POSTGRES_",
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -17,5 +17,5 @@ class PostgresSettings(pydantic_settings.BaseSettings):
     port: int = 5432
     user: str = "app"
     password: pydantic.SecretStr = pydantic.Field(
-        default=..., validation_alias=pydantic.AliasChoices("password", "db_password")
+        default=..., validation_alias=pydantic.AliasChoices("password", "postgres_password")
     )
