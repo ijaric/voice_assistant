@@ -9,7 +9,6 @@ __all__ = [
     "DBSettings",
     "LoggingSettings",
     "PostgresSettings",
-    "PostgresSettings",
     "ProjectSettings",
     "get_logging_config",
 ]
