@@ -5,13 +5,13 @@ services:
     image: postgres:15.2
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_NAME}
     env_file:
       - .env
     expose:
-      - "${DB_PORT}"
+      - "${POSTGRES_PORT}"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     networks:
@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     expose:
-      - "${SERVER_PORT}"
+      - "${API_PORT}"
     depends_on:
       - db
     networks:

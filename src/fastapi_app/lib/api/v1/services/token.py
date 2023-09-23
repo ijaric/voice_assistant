@@ -2,11 +2,11 @@ import fastapi
 from jose import JWTError, jwt
 from pydantic import ValidationError
 
+import lib.app.settings as app_settings
 from lib.api.v1 import schemas as app_schemas
-from lib.app import settings as app_settings
 
 app = fastapi.FastAPI()
-settings = app_settings.get_settings()
+settings = app_settings.settings
 
 security = fastapi.security.HTTPBearer()
 
@@ -16,7 +16,7 @@ def get_token_data(
 ) -> app_schemas.entity.Token:
     token = authorization.credentials
     try:
-        secret_key = settings.jwt_secret_key
+        secret_key = settings.project.jwt_secret_key
         payload = jwt.decode(token, secret_key, algorithms=["HS256"])
         return app_schemas.entity.Token(**payload)
     except (JWTError, ValidationError):
