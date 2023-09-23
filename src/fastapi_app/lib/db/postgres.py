@@ -4,8 +4,6 @@ import sqlalchemy.ext.asyncio as sa_asyncio
 
 import lib.app.settings as app_settings
 
-# settings = app_settings.settings
-
 
 class AsyncDB:
     """Async DB connection."""
