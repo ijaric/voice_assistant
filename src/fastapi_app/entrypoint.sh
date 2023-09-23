@@ -1,7 +1,5 @@
 #!/bin/bash
 
-while ! (echo > /dev/tcp/db/5432) >/dev/null 2>&1; do
-  sleep 1
-done
+while ! nc -z postgres 5432; do sleep 1; done;
 
 exec .venv/bin/python -m bin

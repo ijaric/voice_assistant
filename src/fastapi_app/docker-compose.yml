@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  db:
+  postgres:
     image: postgres:15.2
     restart: always
     environment:
@@ -29,7 +29,7 @@ services:
     expose:
       - "${API_PORT}"
     depends_on:
-      - db
+      - postgres
     networks:
       - backend_network
       - api_network

@@ -1,5 +1,11 @@
 FROM python:3.11
 
+RUN apt-get update \
+  && DEBIAN_FRONTEND=noninteractive \
+  && apt-get install -y net-tools netcat-traditional curl \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir --parents /opt/app
 COPY pyproject.toml /opt/app/pyproject.toml
 COPY poetry.lock /opt/app/poetry.lock

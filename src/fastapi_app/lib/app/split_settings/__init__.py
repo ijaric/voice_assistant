@@ -6,7 +6,7 @@ from .project import *
 __all__ = [
     "ApiSettings",
     "LoggingSettings",
-    "get_logging_config",
     "PostgresSettings",
     "ProjectSettings",
+    "get_logging_config",
 ]
