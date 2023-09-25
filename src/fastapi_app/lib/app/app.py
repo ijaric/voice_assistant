@@ -3,7 +3,7 @@ import logging.config as logging_config
 
 import fastapi
 
-import lib.api.v1.handlers as api_v1_handlers
+import lib.api.v1.endpoints as api_v1_endpoints
 
 from .logger import LOGGING
 from .settings import get_settings
@@ -43,8 +43,9 @@ class Application:
 
         # Handlers
 
+        app.include_router(api_v1_endpoints.health.health_router, prefix="/api/v1/health", tags=["health"])
+
         logger.info("Initializing handlers")
-        app.include_router(api_v1_handlers.health.health_router, prefix="/api/v1/health", tags=["health"])
 
         logger.info("Initializing application finished")
 

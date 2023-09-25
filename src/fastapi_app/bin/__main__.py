@@ -25,7 +25,7 @@ async def main():
     except KeyboardInterrupt:
         logger.info("Exited with keyboard interruption")
     except Exception as e:
-        logger.exception("Unexpected error occurred")
+        logger.exception(f"Unexpected error occurred: {e}")
 
 
 if __name__ == "__main__":

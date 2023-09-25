@@ -63,7 +63,7 @@ class Application:
 
         # Handlers
 
-        logger.info("Initializing handlers")
+        logger.info("Initializing endpoints")
         liveness_probe_handler = health_handlers.LivenessProbeHandler()
 
         logger.info("Creating application")

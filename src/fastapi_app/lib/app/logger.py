@@ -30,7 +30,7 @@ LOGGING = {
             "fmt": "%(levelprefix)s %(client_addr)s - '%(request_line)s' %(status_code)s",
         },
     },
-    "handlers": {
+    "endpoints": {
         "console": {
             "level": log_settings.log_level_handlers,
             "class": "logging.StreamHandler",
@@ -49,14 +49,14 @@ LOGGING = {
     },
     "loggers": {
         "": {
-            "handlers": log_settings.log_default_handlers,
+            "endpoints": log_settings.log_default_handlers,
             "level": log_settings.log_level_loggers,
         },
         "uvicorn.error": {
             "level": log_settings.log_level_loggers,
         },
         "uvicorn.access": {
-            "handlers": ["access"],
+            "endpoints": ["access"],
             "level": log_settings.log_level_loggers,
             "propagate": False,
         },
@@ -64,6 +64,6 @@ LOGGING = {
     "root": {
         "level": log_settings.log_level_root,
         "formatter": "verbose",
-        "handlers": log_settings.log_default_handlers,
+        "endpoints": log_settings.log_default_handlers,
     },
 }

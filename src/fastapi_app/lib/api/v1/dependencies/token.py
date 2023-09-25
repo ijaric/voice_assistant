@@ -2,7 +2,7 @@ import fastapi
 from jose import JWTError, jwt
 from pydantic import ValidationError
 
-import lib.api.v1.schemas as app_schemas
+import lib.api.schemas as app_schemas
 import lib.app.settings as app_settings
 
 settings = app_settings.get_settings()
