@@ -4,9 +4,9 @@ import logging.config as logging_config
 import fastapi
 
 import lib.api.v1.endpoints as api_v1_endpoints
+import lib.app.settings as app_settings
 
 from .logger import LOGGING
-from .settings import get_settings
 
 logging_config.dictConfig(LOGGING)
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class Application:
     def __init__(self) -> None:
-        self.settings = get_settings()
+        self.settings = app_settings.settings
         self.logger = logging.getLogger(__name__)
         self.producer = None
 
