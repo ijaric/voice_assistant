@@ -69,6 +69,8 @@ class Application:
         async def shutdown_event():
             self.logger.info("Shutting down server")
 
+        app.state.settings = self.settings
+
         return app
 
 
