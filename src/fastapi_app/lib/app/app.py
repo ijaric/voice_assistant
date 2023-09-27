@@ -61,10 +61,10 @@ class Application:
 
     def create_app(self) -> fastapi.FastAPI:
         app = fastapi.FastAPI(
-            title="FastAPI",
-            version="0.1.0",
-            docs_url="/api/openapi",
-            openapi_url="/api/openapi.json",
+            title=self.settings.app.title,
+            version=self.settings.app.version,
+            docs_url=self.settings.app.docs_url,
+            openapi_url=self.settings.app.openapi_url,
             default_response_class=fastapi.responses.ORJSONResponse,
             lifespan=self.lifespan,
         )
