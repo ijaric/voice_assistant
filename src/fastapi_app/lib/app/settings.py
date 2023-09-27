@@ -21,6 +21,4 @@ class Settings(pydantic_settings.BaseSettings):
 
 settings = Settings()  # todo Вынести в инициализацию
 
-logging_config.dictConfig(
-    app_split_settings.get_logging_config(**settings.logger.model_dump())
-)
+logging_config.dictConfig(app_split_settings.get_logging_config(**settings.logger.model_dump()))

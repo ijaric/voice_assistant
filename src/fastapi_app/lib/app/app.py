@@ -1,5 +1,6 @@
 import logging
 import logging.config as logging_config
+from contextlib import asynccontextmanager
 
 import fastapi
 
@@ -17,6 +18,13 @@ class Application:
         self.settings = app_settings.settings
         self.logger = logging.getLogger(__name__)
         self.producer = None
+
+    @asynccontextmanager
+    async def lifespan(self, app: fastapi.FastAPI):
+        self.logger.info("Starting server")
+        yield
+        # Clean up the ML models and release the resources
+        self.logger.info("Shutting down server")
 
     def setup_application(self, app: fastapi.FastAPI) -> fastapi.FastAPI:
         logger.info("Initializing application")
@@ -58,16 +66,9 @@ class Application:
             docs_url="/api/openapi",
             openapi_url="/api/openapi.json",
             default_response_class=fastapi.responses.ORJSONResponse,
+            lifespan=self.lifespan,
         )
         app = self.setup_application(app)
-
-        @app.on_event("startup")
-        async def startup_event():
-            self.logger.info("Starting server")
-
-        @app.on_event("shutdown")
-        async def shutdown_event():
-            self.logger.info("Shutting down server")
 
         app.state.settings = self.settings
 
