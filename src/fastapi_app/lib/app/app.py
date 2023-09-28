@@ -14,6 +14,12 @@ import lib.app.split_settings as app_split_settings
 logger = logging.getLogger(__name__)
 
 
+@dataclasses.dataclass
+class DisposableResource:
+    name: str
+    dispose_callback: typing.Awaitable[typing.Any]
+
+
 class Application:
     def __init__(
         self,
