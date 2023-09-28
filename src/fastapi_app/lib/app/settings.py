@@ -1,5 +1,3 @@
-import logging.config as logging_config
-
 import pydantic
 import pydantic_settings
 
@@ -17,10 +15,3 @@ class Settings(pydantic_settings.BaseSettings):
     project: app_split_settings.ProjectSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.ProjectSettings()
     )
-
-
-settings = Settings()  # todo Вынести в инициализацию
-
-logging_config.dictConfig(  # todo Вынести в инициализацию
-    app_split_settings.get_logging_config(**settings.logger.model_dump())
-)
