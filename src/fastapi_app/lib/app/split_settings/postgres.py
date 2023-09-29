@@ -8,8 +8,8 @@ class DBSettings(pydantic_settings.BaseSettings):
     """Parent DB Settings Class."""
 
     # Connection settings
-    protocol: str
-    name: str
+    driver: str
+    db_name: str
     host: str
     port: int
     user: str
@@ -27,12 +27,12 @@ class DBSettings(pydantic_settings.BaseSettings):
 
     @property
     def dsn(self) -> str:
-        password = self.password.get_secret_value() if isinstance(self.password, pydantic.SecretStr) else self.password
-        return f"{self.protocol}://{self.user}:{password}@{self.host}:{self.port}"
+        password = self.password.get_secret_value()
+        return f"{self.driver}://{self.user}:{password}@{self.host}:{self.port}"
 
     @property
     def dsn_as_safe_url(self) -> str:
-        return f"{self.protocol}://{self.user}:***@{self.host}:{self.port}"
+        return f"{self.driver}://{self.user}:***@{self.host}:{self.port}"
 
 
 class PostgresSettings(DBSettings):
@@ -45,8 +45,8 @@ class PostgresSettings(DBSettings):
         extra="ignore",
     )
 
-    protocol: str = "postgresql+asyncpg"
-    name: str = "database_name"
+    driver: str = "postgresql+asyncpg"
+    db_name: str = "database_name"
     host: str = "localhost"
     port: int = 5432
     user: str = "app"
