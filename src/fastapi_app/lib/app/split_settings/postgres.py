@@ -27,7 +27,8 @@ class DBSettings(pydantic_settings.BaseSettings):
 
     @property
     def dsn(self) -> str:
-        return f"{self.protocol}://{self.user}:{self.password}@{self.host}:{self.port}"
+        password = self.password.get_secret_value() if isinstance(self.password, pydantic.SecretStr) else self.password
+        return f"{self.protocol}://{self.user}:{password}@{self.host}:{self.port}"
 
     @property
     def dsn_as_safe_url(self) -> str:
