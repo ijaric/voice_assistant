@@ -9,4 +9,4 @@ class TokenResponseModel(pydantic.BaseModel):
 
 
 class HealthResponseModel(pydantic.BaseModel):
-    status: str = pydantic.Field(..., examples=["healthy"], description="Схема доступности сервиса")
+    status: str = pydantic.Field(default=..., examples=["healthy"], description="Схема доступности сервиса")
