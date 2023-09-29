@@ -30,36 +30,11 @@ class Application:
         self._settings = settings
         self._fastapi_app = fastapi_app
         self._disposable_resources = disposable_resources
-        # self.logger = logging.getLogger(__name__)
-        # self.producer = None
-
-    # def create_app(self) -> fastapi.FastAPI:
-    #     app = fastapi.FastAPI(
-    #         title=self._settings.app.title,
-    #         version=self._settings.app.version,
-    #         docs_url=self._settings.app.docs_url,
-    #         openapi_url=self._settings.app.openapi_url,
-    #         default_response_class=fastapi.responses.ORJSONResponse,
-    #     )
-    #
-    #     @app.on_event("startup")
-    #     async def startup_event():
-    #         self.logger.info("Starting server")
-    #
-    #     @app.on_event("shutdown")
-    #     async def shutdown_event():
-    #         self.logger.info("Shutting down server")
-    #
-    #     return app
 
     @classmethod
     def from_settings(cls, settings: app_settings.Settings) -> typing.Self:
         # Logging
 
-        # logging.basicConfig(
-        #     level=settings.LOGS_MIN_LEVEL,
-        #     format=settings.LOGS_FORMAT,
-        # )
         logging_config.dictConfig(app_split_settings.get_logging_config(**settings.logger.model_dump()))
 
         logger.info("Initializing application")
