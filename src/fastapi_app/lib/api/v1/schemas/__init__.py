@@ -1,6 +1,6 @@
-from .entity import *
+from .base import *
 
 __all__ = [
-    "Healthy",
-    "Token",
+    "HealthSchema",
+    "TokenSchema",
 ]
