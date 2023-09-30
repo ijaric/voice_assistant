@@ -10,6 +10,7 @@ import lib.api.v1.handlers as api_v1_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings
 import lib.app.split_settings as app_split_settings
+import lib.clients as clients
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,14 @@ class Application:
         # Global clients
 
         logger.info("Initializing global clients")
+        postgres_client = clients.AsyncPostgresClient(settings=settings)
+
+        disposable_resources.append(
+            DisposableResource(
+                name="postgres_client",
+                dispose_callback=postgres_client.dispose_callback(),
+            )
+        )
 
         # Clients
 

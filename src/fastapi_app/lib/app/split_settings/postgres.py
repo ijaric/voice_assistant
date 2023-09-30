@@ -4,19 +4,28 @@ import pydantic_settings
 import lib.app.split_settings.utils as app_split_settings_utils
 
 
-class DBSettings(pydantic_settings.BaseSettings):
-    """Parent DB Settings Class."""
+class PostgresSettings(pydantic_settings.BaseSettings):
+    """Postgres settings."""
+
+    model_config = pydantic_settings.SettingsConfigDict(
+        env_file=app_split_settings_utils.ENV_PATH,
+        env_prefix="POSTGRES_",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     # Connection settings
-    driver: str
-    db_name: str
-    host: str
-    port: int
-    user: str
-    password: pydantic.SecretStr
+    driver: str = "postgresql+asyncpg"
+    db_name: str = "database_name"
+    host: str = "localhost"
+    port: int = 5432
+    user: str = "app"
+    password: pydantic.SecretStr = pydantic.Field(
+        default=..., validation_alias=pydantic.AliasChoices("password", "postgres_password")
+    )
 
-    # Enginge settings
-    pool_size: int = 10
+    # Engine settings
+    pool_size: int = 50
     pool_pre_ping: bool = True
     echo: bool = False
 
@@ -33,23 +42,3 @@ class DBSettings(pydantic_settings.BaseSettings):
     @property
     def dsn_as_safe_url(self) -> str:
         return f"{self.driver}://{self.user}:***@{self.host}:{self.port}"
-
-
-class PostgresSettings(DBSettings):
-    """Postgres settings."""
-
-    model_config = pydantic_settings.SettingsConfigDict(
-        env_file=app_split_settings_utils.ENV_PATH,
-        env_prefix="POSTGRES_",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
-
-    driver: str = "postgresql+asyncpg"
-    db_name: str = "database_name"
-    host: str = "localhost"
-    port: int = 5432
-    user: str = "app"
-    password: pydantic.SecretStr = pydantic.Field(
-        default=..., validation_alias=pydantic.AliasChoices("password", "postgres_password")
-    )
