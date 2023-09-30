@@ -45,6 +45,7 @@ class Application:
 
         logger.info("Initializing global clients")
         postgres_client = clients.AsyncPostgresClient(settings=settings)
+        http_client = clients.get_async_http_session()
 
         disposable_resources.append(
             DisposableResource(
@@ -72,10 +73,10 @@ class Application:
         # Handlers
 
         logger.info("Initializing handlers")
-        # liveness_probe_handler = health_handlers.LivenessProbeHandler()
+        liveness_probe_handler = api_v1_handlers.basic_router
+
 
         logger.info("Creating application")
-        # aio_app = aiohttp_web.Application()
 
         fastapi_app = fastapi.FastAPI(
             title=settings.app.title,
@@ -86,7 +87,7 @@ class Application:
         )
 
         # Routes
-        fastapi_app.include_router(api_v1_handlers.health_router, prefix="/api/v1/health", tags=["health"])
+        fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
 
         application = Application(
             settings=settings,

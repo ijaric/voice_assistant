@@ -1,4 +1,3 @@
-# Purpose: Provide an example of an async http client for the application
 import contextlib
 import typing
 
@@ -6,7 +5,12 @@ import httpx
 
 
 @contextlib.asynccontextmanager
-async def get_http_client() -> typing.AsyncGenerator[httpx.AsyncClient, None]:
-    client = httpx.AsyncClient()  # Insert your own settings here
+async def get_async_http_session(
+    settings: dict[str, typing.Any] | None = None
+) -> typing.AsyncGenerator[httpx.AsyncClient, None]:
+    """Async http client."""
+    if settings is None:
+        settings = {}
+    client = httpx.AsyncClient(**settings)  # Insert your own settings here
     async with client as ac:
         yield ac
