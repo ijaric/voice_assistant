@@ -11,6 +11,7 @@ import lib.app.errors as app_errors
 import lib.app.settings as app_settings
 import lib.app.split_settings as app_split_settings
 import lib.clients as clients
+import lib.joke.services as joke_services
 
 logger = logging.getLogger(__name__)
 
@@ -69,12 +70,13 @@ class Application:
         # Services
 
         logger.info("Initializing services")
+        jk_serivces = joke_services.JokeService(http_client=http_client)
 
         # Handlers
 
         logger.info("Initializing handlers")
         liveness_probe_handler = api_v1_handlers.basic_router
-
+        joke_handler = api_v1_handlers.get_joke(joke_service=jk_serivces)
 
         logger.info("Creating application")
 
