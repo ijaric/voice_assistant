@@ -1,4 +1,5 @@
-from .base_sqlalchemy import Base, IdCreatedUpdatedBaseMixin
+from .joke import Joke
+from .orm import Base, IdCreatedUpdatedBaseMixin, JokeORM
 from .token import Token
 
-__all__ = ["Base", "IdCreatedUpdatedBaseMixin", "Token"]
+__all__ = ["Base", "IdCreatedUpdatedBaseMixin", "Joke", "JokeORM", "Token"]
