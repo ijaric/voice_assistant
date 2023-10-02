@@ -129,6 +129,8 @@ ignore = [
   "D415",
   # Type-checkers interpret redundant `as` as exporting an item
   "PLC0414",
+  # Permit using alias for 'import'
+  "PLR0402",
   # Causes churn and awful looking import blocks for little gain
   "TCH"
 ]
