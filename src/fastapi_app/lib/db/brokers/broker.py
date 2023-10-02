@@ -1,11 +1,11 @@
-from contextlib import asynccontextmanager
-from typing import AsyncGenerator, Type
+import contextlib
+import typing
 
 import lib.api.schemas as api_schemas
 
 
 class BrokerPublisher:
-    def __init__(self, broker_class: Type, settings: object):
+    def __init__(self, broker_class: typing.Type, settings: object):
         self.broker = broker_class(settings)
 
     async def connect(self):
@@ -17,7 +17,7 @@ class BrokerPublisher:
     async def publish_message(self, message_body: api_schemas.BrokerMessage, routing_key: str):
         await self.broker.publish_message(message_body, routing_key)
 
-    @asynccontextmanager
-    async def get_connection(self) -> AsyncGenerator:
+    @contextlib.asynccontextmanager
+    async def get_connection(self) -> typing.AsyncGenerator:
         async with self.broker.get_connection() as conn:
             yield conn

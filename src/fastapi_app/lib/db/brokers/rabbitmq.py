@@ -1,6 +1,6 @@
 import asyncio
+import contextlib
 import json
-from contextlib import asynccontextmanager
 
 import aio_pika
 
@@ -36,7 +36,7 @@ class RabbitMQPublisher(db_brokers.base_broker.BasePublisher):
         message = aio_pika.Message(content_type="application/json", body=json.dumps(message_body).encode())
         await self.channel.default_exchange.publish(message, routing_key=routing_key)
 
-    @asynccontextmanager
+    @contextlib.asynccontextmanager
     async def get_connection(self):
         if self.pool.empty() and self.pool.qsize() < self.pool_size:
             await self.connect()
