@@ -32,6 +32,7 @@ python = "^3.11"
 python-jose = "^3.3.0"
 sqlalchemy = "^2.0.20"
 uvicorn = "^0.23.2"
+aio-pika = "^9.3.0"
 
 [tool.poetry.dev-dependencies]
 black = "^23.7.0"

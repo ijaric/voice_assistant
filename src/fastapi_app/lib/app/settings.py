@@ -10,6 +10,9 @@ class Settings(pydantic_settings.BaseSettings):
     postgres: app_split_settings.PostgresSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.PostgresSettings()
     )
+    broker: app_split_settings.RabbitMQSettings = pydantic.Field(
+        default_factory=lambda: app_split_settings.RabbitMQSettings()
+    )
     logger: app_split_settings.LoggingSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.LoggingSettings()
     )

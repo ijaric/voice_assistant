@@ -3,6 +3,7 @@ from .app import *
 from .logger import *
 from .postgres import *
 from .project import *
+from .rabbitmq import *
 
 __all__ = [
     "ApiSettings",
@@ -11,4 +12,5 @@ __all__ = [
     "PostgresSettings",
     "ProjectSettings",
     "get_logging_config",
+    "RabbitMQSettings",
 ]
