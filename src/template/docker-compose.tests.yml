@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   postgres:
@@ -23,7 +23,7 @@ services:
     container_name: api
     image: fastapi_app
     restart: always
-    entrypoint: [ "/opt/app/entrypoint.sh" ]
+    entrypoint: ["/opt/app/entrypoint.sh"]
     env_file:
       - .env
     expose:
@@ -41,7 +41,6 @@ services:
       - .env
     depends_on:
       - postgres
-
 
 volumes:
   postgres_data:
