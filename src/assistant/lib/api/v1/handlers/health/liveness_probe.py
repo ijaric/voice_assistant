@@ -7,9 +7,9 @@ basic_router = fastapi.APIRouter()
 
 @basic_router.get(
     "/",
-    response_model=api_shemas.HealthResponseModel,
+    response_model=api_shemas.HealthResponse,
     summary="Статус работоспособности",
     description="Проверяет доступность сервиса FastAPI.",
 )
 async def health():
-    return api_shemas.HealthResponseModel(status="healthy")
+    return api_shemas.HealthResponse(status="healthy")

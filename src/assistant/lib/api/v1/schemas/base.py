@@ -1,5 +1,5 @@
 import pydantic
 
 
-class HealthResponseModel(pydantic.BaseModel):
+class HealthResponse(pydantic.BaseModel):
     status: str = pydantic.Field(default=..., examples=["healthy"], description="Схема доступности сервиса")
