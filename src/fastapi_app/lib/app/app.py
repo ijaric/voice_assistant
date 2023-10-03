@@ -10,6 +10,9 @@ import lib.api.v1.handlers as api_v1_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings
 import lib.app.split_settings as app_split_settings
+import lib.clients as clients
+import lib.joke.repository as joke_repository
+import lib.joke.services as joke_services
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +46,14 @@ class Application:
         # Global clients
 
         logger.info("Initializing global clients")
+        postgres_client = clients.AsyncPostgresClient(settings=settings)
+
+        disposable_resources.append(
+            DisposableResource(
+                name="postgres_client",
+                dispose_callback=postgres_client.dispose_callback(),
+            )
+        )
 
         # Clients
 
@@ -51,6 +62,7 @@ class Application:
         # Repositories
 
         logger.info("Initializing repositories")
+        jk_repository = joke_repository.JokeRepository(async_session=postgres_client.get_async_session())
 
         # Caches
 
@@ -59,14 +71,15 @@ class Application:
         # Services
 
         logger.info("Initializing services")
+        jk_serivces = joke_services.JokeService(jk_repository)
 
         # Handlers
 
         logger.info("Initializing handlers")
-        # liveness_probe_handler = health_handlers.LivenessProbeHandler()
+        liveness_probe_handler = api_v1_handlers.basic_router
+        joke_handler = api_v1_handlers.JokeHandler(joke_service=jk_serivces).router
 
         logger.info("Creating application")
-        # aio_app = aiohttp_web.Application()
 
         fastapi_app = fastapi.FastAPI(
             title=settings.app.title,
@@ -77,7 +90,8 @@ class Application:
         )
 
         # Routes
-        fastapi_app.include_router(api_v1_handlers.health_router, prefix="/api/v1/health", tags=["health"])
+        fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
+        fastapi_app.include_router(joke_handler, prefix="/test", tags=["some"])
 
         application = Application(
             settings=settings,

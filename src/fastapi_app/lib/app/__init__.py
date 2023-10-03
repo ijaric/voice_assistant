@@ -4,8 +4,8 @@ from .settings import Settings
 
 __all__ = [
     "Application",
-    "Settings",
     "ApplicationError",
     "DisposeError",
+    "Settings",
     "StartServerError",
 ]

@@ -1,5 +1,5 @@
-from .liveness_probe import router as health_router
+from .liveness_probe import basic_router
 
 __all__ = [
-    "health_router",
+    "basic_router",
 ]

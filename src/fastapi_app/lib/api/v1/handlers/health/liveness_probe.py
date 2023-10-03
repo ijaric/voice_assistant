@@ -2,10 +2,10 @@ import fastapi
 
 import lib.api.v1.schemas as api_shemas
 
-router = fastapi.APIRouter()
+basic_router = fastapi.APIRouter()
 
 
-@router.get(
+@basic_router.get(
     "/",
     response_model=api_shemas.HealthResponseModel,
     summary="Статус работоспособности",

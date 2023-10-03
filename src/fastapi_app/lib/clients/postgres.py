@@ -1,24 +1,30 @@
 import sqlalchemy.ext.asyncio as sa_asyncio
 
-import lib.app.split_settings as app_split_settings
+import lib.app.settings as app_settings
 
 
-async def get_async_session(
-    settings: app_split_settings.DBSettings,
-) -> sa_asyncio.async_sessionmaker[sa_asyncio.AsyncSession]:
-    engine = sa_asyncio.create_async_engine(
-        url=settings.dsn,
-        pool_size=settings.pool_size,
-        pool_pre_ping=settings.pool_pre_ping,
-        echo=settings.echo,
-        future=True,
-    )
+class AsyncPostgresClient:
+    """Async Postgres Client that return sessionmaker."""
 
-    async_session = sa_asyncio.async_sessionmaker(
-        bind=engine,
-        autocommit=settings.auto_commit,
-        autoflush=settings.auto_flush,
-        expire_on_commit=settings.expire_on_commit,
-    )
+    def __init__(self, settings: app_settings.Settings) -> None:
+        self.settings = settings.postgres
+        self.async_enging = sa_asyncio.create_async_engine(
+            url=self.settings.dsn,
+            pool_size=self.settings.pool_size,
+            pool_pre_ping=self.settings.pool_pre_ping,
+            echo=self.settings.echo,
+            future=True,
+        )
 
-    return async_session  # noqa: RET504
+    def get_async_session(self) -> sa_asyncio.async_sessionmaker[sa_asyncio.AsyncSession]:
+        async_session = sa_asyncio.async_sessionmaker(
+            bind=self.async_enging,
+            autocommit=self.settings.auto_commit,
+            autoflush=self.settings.auto_flush,
+            expire_on_commit=self.settings.expire_on_commit,
+        )
+
+        return async_session  # noqa: RET504
+
+    async def dispose_callback(self) -> None:
+        await self.async_enging.dispose()
