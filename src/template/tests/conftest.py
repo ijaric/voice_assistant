@@ -3,7 +3,7 @@ import typing
 
 import fastapi
 import httpx
-import pytest_asyncio  # type: ignore[reportMissingImports, ModuleNotFoundError]
+import pytest_asyncio  # type: ignore
 
 import lib.app as lib_app
 import tests.core.settings as tests_core_settings
