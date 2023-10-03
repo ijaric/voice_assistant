@@ -16,8 +16,3 @@ class BrokerPublisher:
 
     async def publish_message(self, message_body: api_schemas.BrokerMessage, routing_key: str):
         await self.broker.publish_message(message_body, routing_key)
-
-    @contextlib.asynccontextmanager
-    async def get_connection(self) -> typing.AsyncGenerator:
-        async with self.broker.get_connection() as conn:
-            yield conn
