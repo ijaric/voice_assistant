@@ -1,5 +1,4 @@
-from .health import *
+from .health import basic_router
+from .joke import JokeHandler
 
-__all__ = [
-    "basic_router",
-]
+__all__ = ["JokeHandler", "basic_router"]
