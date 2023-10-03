@@ -4,7 +4,7 @@ import lib.models.broker_message as lib_models_broker_message
 
 
 class BrokerPublisher:
-    def __init__(self, broker_class: typing.Type, settings: object):
+    def __init__(self, broker_class: type, settings: object):
         self.broker = broker_class(settings)
 
     async def connect(self):

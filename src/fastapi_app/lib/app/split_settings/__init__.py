@@ -11,6 +11,6 @@ __all__ = [
     "LoggingSettings",
     "PostgresSettings",
     "ProjectSettings",
-    "get_logging_config",
     "RabbitMQSettings",
+    "get_logging_config",
 ]
