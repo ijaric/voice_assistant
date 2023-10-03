@@ -17,7 +17,7 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", app_settings.settings.postgres.dsn)
+config.set_main_option("sqlalchemy.url", app_settings.Settings().postgres.dsn)
 
 target_metadata = models.Base.metadata
 
