@@ -5,8 +5,6 @@ import lib.joke.services as joke_services
 
 
 class JokeHandler:
-    router = fastapi.APIRouter()
-
     def __init__(self, joke_service: joke_services.JokeService):
         self.joke_service = joke_service
         self.router = fastapi.APIRouter()
