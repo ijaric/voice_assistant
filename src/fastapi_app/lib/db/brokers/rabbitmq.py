@@ -11,7 +11,7 @@ import lib.models.broker_message as models_broker_message
 
 
 class RabbitMQPublisher(db_brokers.base_broker.BasePublisher):
-    def __init__(self, settings: app_split_settings.RabbitMQSettings()):
+    def __init__(self, settings: app_split_settings.RabbitMQSettings):
         self.settings = settings
         self.connection = None
         self.logger = logging.getLogger(__name__)

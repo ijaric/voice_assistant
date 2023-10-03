@@ -1,5 +1,3 @@
-import typing
-
 import lib.models.broker_message as lib_models_broker_message
 
 
