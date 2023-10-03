@@ -1,8 +1,7 @@
 import abc
-import contextlib
 import typing
 
-import lib.api.schemas as api_schemas
+import lib.models.broker_message as lib_models_broker_message
 
 T = typing.TypeVar("T", bound="BasePublisher")
 
@@ -17,5 +16,5 @@ class BasePublisher(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def publish_message(self, message_body: api_schemas.broker_message.BrokerMessage, routing_key: str) -> None:
+    async def publish_message(self, message_body: lib_models_broker_message.BrokerMessage, routing_key: str) -> None:
         pass

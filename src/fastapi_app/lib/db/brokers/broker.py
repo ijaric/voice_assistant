@@ -1,7 +1,6 @@
-import contextlib
 import typing
 
-import lib.api.schemas as api_schemas
+import lib.models.broker_message as lib_models_broker_message
 
 
 class BrokerPublisher:
@@ -14,5 +13,5 @@ class BrokerPublisher:
     async def dispose(self):
         await self.broker.dispose()
 
-    async def publish_message(self, message_body: api_schemas.BrokerMessage, routing_key: str):
+    async def publish_message(self, message_body: lib_models_broker_message.BrokerMessage, routing_key: str):
         await self.broker.publish_message(message_body, routing_key)

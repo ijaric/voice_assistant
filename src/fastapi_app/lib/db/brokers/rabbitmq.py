@@ -5,9 +5,9 @@ import logging
 
 import aio_pika
 
-import lib.api.schemas as api_schemas
 import lib.app.split_settings as app_split_settings
 import lib.db.brokers as db_brokers
+import lib.models.broker_message as models_broker_message
 
 
 class RabbitMQPublisher(db_brokers.base_broker.BasePublisher):
@@ -33,6 +33,7 @@ class RabbitMQPublisher(db_brokers.base_broker.BasePublisher):
     async def dispose(self):
         try:
             while not self.pool.empty():
+                print("Closing channel")
                 channel = await self.pool.get()
                 await channel.close()
 
@@ -57,7 +58,7 @@ class RabbitMQPublisher(db_brokers.base_broker.BasePublisher):
         finally:
             await self.pool.put(channel)
 
-    async def publish_message(self, message_body: api_schemas.BrokerMessage, routing_key: str):
+    async def publish_message(self, message_body: models_broker_message.BrokerMessage, routing_key: str):
         try:
             async with self.__get_channel() as channel:
                 message = aio_pika.Message(content_type="application/json", body=json.dumps(message_body).encode())
