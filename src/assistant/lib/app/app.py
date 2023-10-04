@@ -57,6 +57,17 @@ class Application:
 
         logger.info("Initializing clients")
 
+        http_yandex_tts_client = clients.AsyncHttpClient(
+            base_url="yandex",  # todo add yandex api url from settings
+            proxy_settings=settings.proxy,
+        )
+        disposable_resources.append(
+            DisposableResource(
+                name="http_client yandex",
+                dispose_callback=http_yandex_tts_client.close(),
+            )
+        )
+
         # Repositories
 
         logger.info("Initializing repositories")
