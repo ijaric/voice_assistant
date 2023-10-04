@@ -10,7 +10,7 @@ class AsyncHttpClient:
         self,
         proxy_settings: app_split_settings.ProxySettings,
         base_url: str | None = None,
-        **client_params: dict[typing.Any, typing.Any],
+        **client_params: typing.Any,
     ) -> None:
         self.base_url = base_url if base_url else ""
         self.proxy_settings = proxy_settings
