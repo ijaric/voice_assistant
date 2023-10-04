@@ -16,3 +16,4 @@ class Settings(pydantic_settings.BaseSettings):
     project: app_split_settings.ProjectSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.ProjectSettings()
     )
+    proxy: app_split_settings.ProxySettings = pydantic.Field(default_factory=lambda: app_split_settings.ProxySettings())

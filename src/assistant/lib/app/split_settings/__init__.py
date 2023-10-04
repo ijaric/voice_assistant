@@ -3,6 +3,7 @@ from .app import *
 from .logger import *
 from .postgres import *
 from .project import *
+from .proxy import *
 
 __all__ = [
     "ApiSettings",
@@ -10,5 +11,6 @@ __all__ = [
     "LoggingSettings",
     "PostgresSettings",
     "ProjectSettings",
+    "ProxySettings",
     "get_logging_config",
 ]
