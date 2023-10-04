@@ -7,7 +7,7 @@ class TTSRequestModel(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(use_enum_values=True)
 
     voice_model_name: tts_models_voice.YandexVoiceModelNamesString
-    audio_content: bytes
+    text: str
 
 
 class TTSResponseModel(pydantic.BaseModel):
