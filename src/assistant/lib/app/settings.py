@@ -13,6 +13,10 @@ class Settings(pydantic_settings.BaseSettings):
     logger: app_split_settings.LoggingSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.LoggingSettings()
     )
+    openai: app_split_settings.OpenaiSettings = pydantic.Field(
+        default_factory=lambda: app_split_settings.OpenaiSettings()
+    )
     project: app_split_settings.ProjectSettings = pydantic.Field(
         default_factory=lambda: app_split_settings.ProjectSettings()
     )
+    voice: app_split_settings.VoiceSettings = pydantic.Field(default_factory=lambda: app_split_settings.VoiceSettings())
