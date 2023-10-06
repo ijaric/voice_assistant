@@ -1,3 +1,5 @@
+import typing
+
 import pydantic
 import pydantic_settings
 
@@ -11,6 +13,7 @@ class ProxySettings(pydantic_settings.BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+    protocol: typing.Literal["http", "socks5"] = "http"
     user: str | None = None
     password: pydantic.SecretStr | None = None
     host: str | None = None
@@ -21,15 +24,15 @@ class ProxySettings(pydantic_settings.BaseSettings):
     def dsn(self) -> str:
         if self.user and self.password:
             password = self.password.get_secret_value()
-            return f"http://{self.user}:{password}@{self.host}:{self.port}"
-        return f"http://{self.host}:{self.port}"
+            return f"{self.protocol}://{self.user}:{password}@{self.host}:{self.port}"
+        return f"{self.protocol}://{self.host}:{self.port}"
 
     @pydantic.computed_field
     @property
     def dsn_as_safe_url(self) -> str:
         if self.user and self.password:
-            return f"http://{self.user}:{self.password}@{self.host}:{self.port}"
-        return f"http://{self.host}:{self.port}"
+            return f"{self.protocol}://{self.user}:{self.password}@{self.host}:{self.port}"
+        return f"{self.protocol}://{self.host}:{self.port}"
 
     @pydantic.model_validator(mode="after")
     def check_proxy(self):
