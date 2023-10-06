@@ -14,12 +14,12 @@ class AsyncHttpClient:
     ) -> None:
         self.base_url = base_url if base_url else ""
         self.proxy_settings = proxy_settings
-        self.proxies = self._get_proxies_from_settings()
+        self.proxies = self.__get_proxies_from_settings()
         self.client_params = client_params
 
         self.client = self._get_client()
 
-    def _get_proxies_from_settings(self) -> dict[str, str] | None:
+    def __get_proxies_from_settings(self) -> dict[str, str] | None:
         if not self.proxy_settings.enable:
             return None
         proxies = {"all://": self.proxy_settings.dsn}
