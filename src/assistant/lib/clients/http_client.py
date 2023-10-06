@@ -5,7 +5,7 @@ import httpx
 import lib.app.split_settings as app_split_settings
 
 
-class AsyncHttpClient:
+class AsyncHttpClient(httpx.AsyncClient):
     def __init__(
         self,
         proxy_settings: app_split_settings.ProxySettings,
@@ -17,7 +17,7 @@ class AsyncHttpClient:
         self.proxies = self.__get_proxies_from_settings()
         self.client_params = client_params
 
-        self.client = self._get_client()
+        super().__init__(base_url=self.base_url, proxies=self.proxies, **client_params)
 
     def __get_proxies_from_settings(self) -> dict[str, str] | None:
         if not self.proxy_settings.enable:
@@ -25,14 +25,5 @@ class AsyncHttpClient:
         proxies = {"all://": self.proxy_settings.dsn}
         return proxies
 
-    def _get_client(self):
-        return httpx.AsyncClient(
-            base_url=self.base_url,
-            proxies=self.proxies,  # type: ignore
-            **self.client_params,
-        )
-
-    async def close(self):
-        if not self.client:
-            return
-        await self.client.aclose()
+    async def close(self) -> None:
+        await self.aclose()
