@@ -8,7 +8,7 @@ import lib.app.split_settings as app_split_settings
 class SttVoice(pydantic.BaseModel):
     audio_size: int
     audio_format: str
-    audio_name: str = "123"
+    audio_name: str = "voice"
     audio_data: bytes
     voice_settings: app_split_settings.VoiceSettings
 

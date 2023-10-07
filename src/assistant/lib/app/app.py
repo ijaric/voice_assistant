@@ -61,6 +61,7 @@ class Application:
         # Repositories
 
         logger.info("Initializing repositories")
+        stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
 
         # Caches
 
@@ -69,7 +70,7 @@ class Application:
         # Services
 
         logger.info("Initializing services")
-        stt_service: stt.STTProtocol = stt.OpenaiSpeech(settings=settings)  # type: ignore
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
 
         # Handlers
 

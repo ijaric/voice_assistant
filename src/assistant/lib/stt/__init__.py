@@ -1,7 +1,10 @@
-from .openai_speech import *
-from .stt_protocol import *
+from .models import *
+from .repositories import *
+from .services import *
 
 __all__ = [
-    "OpenaiSpeech",
-    "stt_protocol",
+    "OpenaiSpeechRepository",
+    "STTProtocol",
+    "SpeechService",
+    "SttVoice",
 ]
