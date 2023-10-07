@@ -1,7 +1,7 @@
-from typing import Protocol
+import typing
 
 
-class STTProtocol(Protocol):
+class STTProtocol(typing.Protocol):
     async def speech_to_text(self, audio: bytes) -> str:
         ...
 
