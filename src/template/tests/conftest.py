@@ -63,30 +63,6 @@ async def app_http_client(
     await session.aclose()
 
 
-# @pytest_asyncio.fixture(scope="session")
-# def engine() -> collections_abc.Generator[sqlalchemy_ext_asyncio.AsyncEngine, typing.Any, None]:
-#     engine = sqlalchemy_ext_asyncio.create_async_engine(tests_core_settings.tests_settings.postgres.db_uri_async)
-#     yield engine
-#     engine.sync_engine.dispose()
-#
-#
-# @pytest_asyncio.fixture
-# async def create(engine: sqlalchemy_ext_asyncio.AsyncEngine) -> collections_abc.AsyncGenerator[None, typing.Any]:
-#     async with engine.begin() as conn:
-#         await conn.run_sync(tests_unit_models.Base.metadata.create_all)
-#     yield
-#     async with engine.begin() as conn:
-#         await conn.run_sync(tests_unit_models.Base.metadata.drop_all)
-#
-#
-# @pytest_asyncio.fixture
-# async def session(
-#     engine: sqlalchemy_ext_asyncio.AsyncEngine, create: collections_abc.AsyncGenerator[None, typing.Any]
-# ) -> collections_abc.AsyncGenerator[sqlalchemy_ext_asyncio.AsyncSession, typing.Any]:
-#     async with sqlalchemy_ext_asyncio.AsyncSession(engine) as session:
-#         yield session
-
-
 @pytest_asyncio.fixture(scope="session")  # type: ignore[reportUntypedFunctionDecorator]
 def event_loop():
     loop = asyncio.get_event_loop_policy().new_event_loop()
