@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-import multidict  # type: ignore[reportMissingImports]
+import multidict
 
 import tests.core.settings as functional_settings
 

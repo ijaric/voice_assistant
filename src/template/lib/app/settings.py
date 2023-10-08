@@ -17,4 +17,5 @@ class Settings(pydantic_settings.BaseSettings):
         default_factory=lambda: app_split_settings.ProjectSettings()
     )
 
+
 print(Settings())
