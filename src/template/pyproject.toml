@@ -26,13 +26,15 @@ fastapi = "0.103.1"
 greenlet = "^2.0.2"
 httpx = "^0.25.0"
 orjson = "^3.9.7"
-psycopg2 = "^2.9.7"
 pydantic = {extras = ["email"], version = "^2.3.0"}
 pydantic-settings = "^2.0.3"
 python = "^3.11"
 python-jose = "^3.3.0"
 sqlalchemy = "^2.0.20"
 uvicorn = "^0.23.2"
+psycopg2-binary = "^2.9.9"
+pytest-asyncio = "^0.21.1"
+multidict = "^6.0.4"
 
 [tool.poetry.dev-dependencies]
 black = "^23.7.0"
@@ -86,7 +88,8 @@ variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 
 [tool.pyright]
 exclude = [
-  ".venv"
+  ".pytest_cache",
+  ".venv",
 ]
 pythonPlatform = "All"
 pythonVersion = "3.11"
