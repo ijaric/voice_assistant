@@ -25,7 +25,7 @@ class PostgresSettings(pydantic_settings.BaseSettings):
     def db_uri_async(self) -> str:
         db_uri: str = "postgresql+asyncpg://{pg_user}:{pg_pass}@{pg_host}/{pg_dbname}".format(
             pg_user=self.user,
-            pg_pass=self.password,
+            pg_pass=self.password.get_secret_value(),
             pg_host=self.host,
             pg_dbname=self.name,
         )
@@ -35,7 +35,7 @@ class PostgresSettings(pydantic_settings.BaseSettings):
     def db_uri_sync(self) -> str:
         db_uri: str = "postgresql://{pg_user}:{pg_pass}@{pg_host}/{pg_dbname}".format(
             pg_user=self.user,
-            pg_pass=self.password,
+            pg_pass=self.password.get_secret_value(),
             pg_host=self.host,
             pg_dbname=self.name,
         )
