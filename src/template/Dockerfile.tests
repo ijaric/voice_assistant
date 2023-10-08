@@ -4,8 +4,8 @@ RUN apt-get update
 
 WORKDIR /opt/app
 
-COPY tests/pyproject.toml ./
-COPY tests/poetry.lock ./
+COPY pyproject.toml ./
+COPY poetry.lock ./
 
 RUN apt-get update \
     && pip install poetry \
