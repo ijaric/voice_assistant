@@ -28,7 +28,7 @@ class MakeResponseCallableType(typing.Protocol):
         api_method: str = "",
         url: str = functional_settings.tests_settings.api.get_api_url,
         method: MethodsEnum = MethodsEnum.GET,
-        headers: dict[str, str] = functional_settings.tests_settings.project.headers,
+        headers: dict[str, str] = functional_settings.tests_settings.api.headers,
         body: dict[str, typing.Any] | None = None,
         jwt_token: str | None = None,
     ) -> HTTPResponse:

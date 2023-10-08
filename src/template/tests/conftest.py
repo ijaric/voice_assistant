@@ -24,7 +24,7 @@ async def make_request(http_client: httpx.AsyncClient):
     async def inner(
         api_method: str = "",
         method: functional_models.MethodsEnum = functional_models.MethodsEnum.GET,
-        headers: dict[str, str] = tests_core_settings.tests_settings.project.headers,
+        headers: dict[str, str] = tests_core_settings.tests_settings.api.headers,
         body: dict[str, typing.Any] | None = None,
         jwt_token: str | None = None,
     ) -> functional_models.HTTPResponse:

@@ -13,4 +13,3 @@ class ProjectSettings(pydantic_settings.BaseSettings):
 
     debug: bool = False
     jwt_secret_key: pydantic.SecretStr = pydantic.Field(default=..., validation_alias="jwt_secret_key")
-    headers: dict[str, str] = {"Content-Type": "application/json"}

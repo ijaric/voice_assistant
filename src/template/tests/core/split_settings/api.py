@@ -15,6 +15,7 @@ class ApiSettings(pydantic_settings.BaseSettings):
     protocol: str = "http"
     host: str = "0.0.0.0"
     port: int = 8000
+    headers: dict[str, str] = {"Content-Type": "application/json"}
 
     @pydantic.computed_field
     @property
