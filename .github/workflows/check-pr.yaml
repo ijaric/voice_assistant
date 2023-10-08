@@ -99,6 +99,8 @@ jobs:
           make lint
 
       - name: Test Package
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         working-directory: src/${{ matrix.package }}
         run: |
           make ci-test
