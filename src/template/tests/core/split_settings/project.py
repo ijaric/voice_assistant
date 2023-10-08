@@ -11,10 +11,6 @@ class ProjectSettings(pydantic_settings.BaseSettings):
         extra="ignore",
     )
 
-    debug: str = "false"
+    debug: bool = False
     jwt_secret_key: pydantic.SecretStr = pydantic.Field(default=..., validation_alias="jwt_secret_key")
     headers: dict[str, str] = {"Content-Type": "application/json"}
-
-    @pydantic.field_validator("debug")
-    def validate_debug(cls, v: str) -> bool:
-        return v.lower() == "true"
