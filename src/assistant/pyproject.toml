@@ -35,6 +35,9 @@ python-jose = "^3.3.0"
 sqlalchemy = "^2.0.20"
 uvicorn = "^0.23.2"
 wrapt = "^1.15.0"
+pytest = "^7.4.2"
+pytest-asyncio = "^0.21.1"
+multidict = "^6.0.4"
 
 [tool.poetry.dev-dependencies]
 black = "^23.7.0"
@@ -88,6 +91,7 @@ variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 
 [tool.pyright]
 exclude = [
+  ".pytest_cache",
   ".venv"
 ]
 pythonPlatform = "All"
