@@ -101,6 +101,7 @@ jobs:
       - name: Test Package
         env:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         working-directory: src/${{ matrix.package }}
         run: |
           make ci-test
