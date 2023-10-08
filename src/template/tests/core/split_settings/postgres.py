@@ -17,7 +17,7 @@ class PostgresSettings(pydantic_settings.BaseSettings):
     port: int = 5432
     user: str = "app"
     password: pydantic.SecretStr = pydantic.Field(
-        default=...,
+        default="your_password",
         validation_alias=pydantic.AliasChoices("password", "postgres_password"),
     )
 
