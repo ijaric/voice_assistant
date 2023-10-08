@@ -26,7 +26,7 @@ class MakeResponseCallableType(typing.Protocol):
     async def __call__(
         self,
         api_method: str = "",
-        url: str = functional_settings.tests_settings.api.get_api_url(),
+        url: str = functional_settings.tests_settings.api.get_api_url,
         method: MethodsEnum = MethodsEnum.GET,
         headers: dict[str, str] = functional_settings.tests_settings.project.headers,
         body: dict[str, typing.Any] | None = None,

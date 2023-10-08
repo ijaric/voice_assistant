@@ -12,7 +12,7 @@ import tests.functional.models as functional_models
 
 @pytest_asyncio.fixture  # type: ignore[reportUntypedFunctionDecorator]
 async def http_client(
-    base_url: str = tests_core_settings.tests_settings.api.get_api_url(),
+    base_url: str = tests_core_settings.tests_settings.api.get_api_url,
 ) -> typing.AsyncGenerator[httpx.AsyncClient, typing.Any]:
     session = httpx.AsyncClient(base_url=base_url)
     yield session
@@ -56,7 +56,7 @@ def app() -> fastapi.FastAPI:
 @pytest_asyncio.fixture  # type: ignore[reportUntypedFunctionDecorator]
 async def app_http_client(
     app: fastapi.FastAPI,
-    base_url: str = tests_core_settings.tests_settings.api.get_api_url(),
+    base_url: str = tests_core_settings.tests_settings.api.get_api_url,
 ) -> typing.AsyncGenerator[httpx.AsyncClient, typing.Any]:
     session = httpx.AsyncClient(app=app, base_url=base_url)
     yield session
