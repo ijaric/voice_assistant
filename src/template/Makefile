@@ -7,3 +7,8 @@ PROJECT_FOLDERS = bin lib tests
 test:
 	@echo 'Running tests...'
 	@$(PYTHON) -m pytest tests/unit
+
+.PHONY: ci-test
+ci-test:
+	@echo 'Running tests...'
+	@$(PYTHON) -m pytest tests/unit
