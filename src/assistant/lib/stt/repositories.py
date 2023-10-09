@@ -23,7 +23,7 @@ class OpenaiSpeechRepository:
         return extension
 
     async def speech_to_text(self, audio: bytes) -> str:
-        file_extension: str | None = self.__get_file_extension_from_bytes(audio)
+        file_extension = self.__get_file_extension_from_bytes(audio)
         if not file_extension:
             raise ValueError("File extension is not supported")
 
