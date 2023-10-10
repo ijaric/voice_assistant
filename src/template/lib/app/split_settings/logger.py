@@ -1,11 +1,12 @@
-import pydantic_settings
-
 import lib.app.split_settings.utils as app_split_settings_utils
+import pydantic_settings
 
 
 class LoggingSettings(pydantic_settings.BaseSettings):
     model_config = pydantic_settings.SettingsConfigDict(
-        env_file=app_split_settings_utils.ENV_PATH, env_file_encoding="utf-8", extra="ignore"
+        env_file=app_split_settings_utils.ENV_PATH,
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
     log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
