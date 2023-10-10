@@ -4,7 +4,9 @@ from .logger import *
 from .openai import *
 from .postgres import *
 from .project import *
+from .proxy import *
 from .voice import *
+
 
 __all__ = [
     "ApiSettings",
@@ -13,6 +15,7 @@ __all__ = [
     "OpenaiSettings",
     "PostgresSettings",
     "ProjectSettings",
+    "ProxySettings",
     "VoiceSettings",
     "get_logging_config",
 ]
