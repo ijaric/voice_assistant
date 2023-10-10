@@ -1,126 +1,60 @@
-import enum
+import typing
 
-import lib.tts.models.voice.base as tts_models_voice_base
+import pydantic
 
-
-class YandexVoiceModelNamesString(enum.Enum):
-    ERMIL_NEUTRAL = "ermil neutral"
-    ERMIL_GOOD = "ermil good"
-    ALENA_NEUTRAL = "alena neutral"
-    ALENA_GOOD = "alena good"
-    JANE_NEUTRAL = "jane neutral"
-    JANE_GOOD = "jane good"
-    JANE_EVIL = "jane evil"
-    OMAZH_NEUTRAL = "omazh neutral"
-    OMAZH_EVIL = "omazh evil"
-    ZAHAR_NEUTRAL = "zahar neutral"
-    ZAHAR_GOOD = "zahar good"
-    FILIPP = "filipp"
-    MADIRUS = "madirus"
-    DASHA = "dasha"
-    JULIA = "julia"
-    LERA = "lera"
-    MARINA = "marina"
-    ALEXANDER = "alexander"
-    KIRILL = "kirill"
-    ANTON = "anton"
-    # English
-    JOHN = "john"
-    # Kazakh
-    AMIRA = "amira"
-    MADI = "madi"
-    # German
-    LEA = "lea"
-    # HEBREW
-    NAOMI_MODERN = "naomi modern"
-    NAOMI_CLASSIC = "naomi classic"
-    # Uzbek
-    NIGORA = "nigora"
+import lib.models as models
 
 
-class YandexVoiceModels(enum.Enum):
-    # Russian
-    ERMIL_NEUTRAL = tts_models_voice_base.VoiceModel(
-        voice_name="ermil", role="neutral", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ERMIL_GOOD = tts_models_voice_base.VoiceModel(
-        voice_name="ermil", role="good", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ALENA_NEUTRAL = tts_models_voice_base.VoiceModel(
-        voice_name="alena", role="neutral", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ALENA_GOOD = tts_models_voice_base.VoiceModel(
-        voice_name="alena", role="good", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    JANE_NEUTRAL = tts_models_voice_base.VoiceModel(
-        voice_name="jane", role="neutral", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    JANE_GOOD = tts_models_voice_base.VoiceModel(
-        voice_name="jane", role="good", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    JANE_EVIL = tts_models_voice_base.VoiceModel(
-        voice_name="jane", role="evil", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    OMAZH_NEUTRAL = tts_models_voice_base.VoiceModel(
-        voice_name="omazh", role="neutral", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    OMAZH_EVIL = tts_models_voice_base.VoiceModel(
-        voice_name="omazh", role="evil", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ZAHAR_NEUTRAL = tts_models_voice_base.VoiceModel(
-        voice_name="zahar", role="neutral", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ZAHAR_GOOD = tts_models_voice_base.VoiceModel(
-        voice_name="zahar", role="good", lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    FILIPP = tts_models_voice_base.VoiceModel(
-        voice_name="filipp", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    MADIRUS = tts_models_voice_base.VoiceModel(
-        voice_name="madirus", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    DASHA = tts_models_voice_base.VoiceModel(
-        voice_name="dasha", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    JULIA = tts_models_voice_base.VoiceModel(
-        voice_name="julia", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    LERA = tts_models_voice_base.VoiceModel(
-        voice_name="lera", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    MARINA = tts_models_voice_base.VoiceModel(
-        voice_name="marina", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ALEXANDER = tts_models_voice_base.VoiceModel(
-        voice_name="alexander", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    KIRILL = tts_models_voice_base.VoiceModel(
-        voice_name="kirill", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    ANTON = tts_models_voice_base.VoiceModel(
-        voice_name="anton", role=None, lang=tts_models_voice_base.LanguageCodes.RUSSIAN
-    )
-    # English
-    JOHN = tts_models_voice_base.VoiceModel(
-        voice_name="john", role=None, lang=tts_models_voice_base.LanguageCodes.ENGLISH
-    )
-    # Kazakh
-    AMIRA = tts_models_voice_base.VoiceModel(
-        voice_name="amira", role=None, lang=tts_models_voice_base.LanguageCodes.KAZAKH
-    )
-    MADI = tts_models_voice_base.VoiceModel(
-        voice_name="madi", role=None, lang=tts_models_voice_base.LanguageCodes.KAZAKH
-    )
-    # German
-    LEA = tts_models_voice_base.VoiceModel(voice_name="lea", role=None, lang=tts_models_voice_base.LanguageCodes.GERMAN)
-    # HEBREW
-    NAOMI_MODERN = tts_models_voice_base.VoiceModel(
-        voice_name="naomi", role="modern", lang=tts_models_voice_base.LanguageCodes.HEBREW
-    )
-    NAOMI_CLASSIC = tts_models_voice_base.VoiceModel(
-        voice_name="naomi", role="classic", lang=tts_models_voice_base.LanguageCodes.HEBREW
-    )
-    # Uzbek
-    NIGORA = tts_models_voice_base.VoiceModel(
-        voice_name="nigora", role=None, lang=tts_models_voice_base.LanguageCodes.UZBEK
-    )
+class YandexVoiceModel(models.BaseVoiceModel):
+    voice_id: str
+    voice_name: str | None = None
+    languages: list[models.LANGUAGE_CODES_ENUM_TYPE]
+    company_name: str = "yandex"
+    role: str | None = None
+
+    @pydantic.model_validator(mode="before")
+    @classmethod
+    def check_voice_name_exists(cls, data: typing.Any) -> typing.Any:
+        voice_id = data.get("voice_id")
+        voice_name = data.get("voice_name")
+        role = data.get("role")
+        if not voice_name and voice_id:
+            data["voice_name"] = f"{voice_id} {role}" if role else voice_id
+        return data
+
+
+class YandexListVoiceModelsModel(pydantic.BaseModel):
+    models: list[YandexVoiceModel] = [
+        YandexVoiceModel(voice_id="ermil", role="neutral", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="ermil", role="good", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="alena", role="neutral", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="alena", role="good", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="jane", role="neutral", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="jane", role="good", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="jane", role="evil", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="omazh", role="neutral", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="omazh", role="evil", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="zahar", role="neutral", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="zahar", role="good", languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="filipp", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="madirus", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="dasha", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="julia", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="lera", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="marina", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="alexander", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="kirill", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="anton", role=None, languages=[models.YandexLanguageCodesEnum.RUSSIAN]),
+        YandexVoiceModel(voice_id="john", role=None, languages=[models.YandexLanguageCodesEnum.ENGLISH]),
+        YandexVoiceModel(voice_id="amira", role=None, languages=[models.YandexLanguageCodesEnum.KAZAKH]),
+        YandexVoiceModel(voice_id="madi", role=None, languages=[models.YandexLanguageCodesEnum.KAZAKH]),
+        YandexVoiceModel(voice_id="lea", role=None, languages=[models.YandexLanguageCodesEnum.GERMAN]),
+        YandexVoiceModel(voice_id="naomi", role="modern", languages=[models.YandexLanguageCodesEnum.HEBREW]),
+        YandexVoiceModel(voice_id="naomi", role="classic", languages=[models.YandexLanguageCodesEnum.HEBREW]),
+        YandexVoiceModel(voice_id="nigora", role=None, languages=[models.YandexLanguageCodesEnum.UZBEK]),
+    ]
+
+    @classmethod
+    def from_api(cls, voice_models_from_api: list[dict[str, typing.Any]]) -> typing.Self:
+        voice_models = [YandexVoiceModel.model_validate(voice_model) for voice_model in voice_models_from_api]
+        return YandexListVoiceModelsModel(models=voice_models)
