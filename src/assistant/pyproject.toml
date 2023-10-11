@@ -28,6 +28,7 @@ greenlet = "^2.0.2"
 httpx = "^0.25.0"
 openai = "^0.28.1"
 orjson = "^3.9.7"
+pgvector = "^0.2.3"
 psycopg2-binary = "^2.9.9"
 pydantic = {extras = ["email"], version = "^2.3.0"}
 pydantic-settings = "^2.0.3"
