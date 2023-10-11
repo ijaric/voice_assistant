@@ -1,4 +1,0 @@
-import lib.tts.models.voice as tts_models_voice
-
-VOICE_MODELS_TYPE = tts_models_voice.YandexVoiceModel | tts_models_voice.ElevenLabsVoiceModel
-LIST_VOICE_MODELS_TYPE = tts_models_voice.YandexListVoiceModelsModel | tts_models_voice.ElevenLabsListVoiceModelsModel

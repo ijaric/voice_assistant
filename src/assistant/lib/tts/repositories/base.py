@@ -1,7 +1,6 @@
 import abc
 
 import lib.models as models
-import lib.tts.models as tts_models
 
 
 class HttpClient:  # Mocked class todo remove and use real http client from lib.clients.http_client
@@ -15,11 +14,11 @@ class TTSBaseRepository(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def voice_models(self) -> tts_models.LIST_VOICE_MODELS_TYPE:
+    def voice_models(self) -> models.LIST_VOICE_MODELS_TYPE:
         ...
 
     @abc.abstractmethod
-    def get_audio_as_bytes_from_text(self, text: str) -> models.TTSCreateResponseModel:
+    def get_audio_as_bytes(self, request: models.TTSCreateRequestModel) -> models.TTSCreateResponseModel:
         raise NotImplementedError
 
     def get_voice_model_by_name(self, voice_model_name: str) -> models.BaseVoiceModel | None:
@@ -34,7 +33,7 @@ class TTSBaseRepository(abc.ABC):
 
     def get_list_voice_models_by_fields(
         self, fields: models.TTSSearchVoiceRequestModel
-    ) -> list[tts_models.VOICE_MODELS_TYPE]:
+    ) -> list[models.AVAILABLE_MODELS_TYPE]:
         """
         Search voice model by fields
         :param fields: Any fields from TTSSearchVoiceRequestModel
@@ -43,7 +42,6 @@ class TTSBaseRepository(abc.ABC):
         fields_dump = fields.model_dump(exclude_none=True)
         voice_models_response = []
         for voice_model in self.voice_models.models:
-            voice_model: tts_models.VOICE_MODELS_TYPE
             for field, field_value in fields_dump.items():
                 if field == "languages":  # language is a list
                     language_names: set[str] = {item.name for item in field_value}
