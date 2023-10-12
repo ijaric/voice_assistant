@@ -23,7 +23,7 @@ class ChatHistoryRepository:
                     sa.select(orm_models.ChatHistory)
                     .filter_by(channel=request.channel, user_id=request.user_id)
                     .filter(
-                        (sa.text("NOW()") - sa.func.extract("epoch", orm_models.ChatHistory.created)) / 60
+                        (sa.func.extract("epoch", sa.text("NOW()")) - sa.func.extract("epoch", orm_models.ChatHistory.created)) / 60
                         <= request.minutes_ago
                     )
                     .order_by(orm_models.ChatHistory.created.desc())
@@ -33,7 +33,7 @@ class ChatHistoryRepository:
 
                 chat_session = result.scalars().first()
                 if chat_session:
-                    return chat_session.id
+                    return chat_session.session_id
         except sqlalchemy.exc.SQLAlchemyError as error:
             self.logger.exception("Error: %s", error)
 
