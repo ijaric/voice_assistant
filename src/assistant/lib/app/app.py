@@ -11,6 +11,7 @@ import lib.app.errors as app_errors
 import lib.app.settings as app_settings
 import lib.app.split_settings as app_split_settings
 import lib.clients as clients
+import lib.stt as stt
 
 logger = logging.getLogger(__name__)
 
@@ -57,9 +58,21 @@ class Application:
 
         logger.info("Initializing clients")
 
+        http_yandex_tts_client = clients.AsyncHttpClient(
+            base_url="yandex",  # todo add yandex api url from settings
+            proxy_settings=settings.proxy,
+        )
+        disposable_resources.append(
+            DisposableResource(
+                name="http_client yandex",
+                dispose_callback=http_yandex_tts_client.close(),
+            )
+        )
+
         # Repositories
 
         logger.info("Initializing repositories")
+        stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
 
         # Caches
 
@@ -68,6 +81,7 @@ class Application:
         # Services
 
         logger.info("Initializing services")
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
 
         # Handlers
 
