@@ -31,9 +31,9 @@ class ChatHistoryRepository:
                     )
                     .order_by(orm_models.ChatHistory.created.desc())
                     .limit(1)
-                )                
+                )
                 result = await session.execute(statement)
-                
+
                 chat_session = result.scalars().first()
                 if chat_session:
                     return chat_session.id

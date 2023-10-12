@@ -12,7 +12,3 @@ class Movie(pydantic.BaseModel):
     type: str
     created: datetime.datetime
     modified: datetime.datetime
-
-
-class Embedding(pydantic.RootModel[list[float]]):
-    root: list[float]

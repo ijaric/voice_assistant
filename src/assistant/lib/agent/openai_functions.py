@@ -2,13 +2,13 @@ import logging
 import uuid
 
 import langchain.agents
-import models
 import orm_models
 import sqlalchemy as sa
 import sqlalchemy.exc
 import sqlalchemy.ext.asyncio as sa_asyncio
 
 import lib.agent.repositories as repositories
+import lib.models as models
 
 
 class OpenAIFunctions:
@@ -25,7 +25,7 @@ class OpenAIFunctions:
 
     @langchain.agents.tool
     async def get_movie_by_description(self, description: str) -> list[models.Movie] | None:
-        """Returns a movie data by description."""
+        """Provide a movie data by description."""
 
         self.logger.info("Request to get movie by description: %s", description)
         embedded_description = await self.repository.aget_embedding(description)
@@ -39,7 +39,6 @@ class OpenAIFunctions:
                 )
                 neighbours = session.scalars(stmt)
                 for neighbour in await neighbours:
-                    print(neighbour.title)
                     result.append(models.Movie(**neighbour.__dict__))
                 return result
         except sqlalchemy.exc.SQLAlchemyError as error:
@@ -47,12 +46,13 @@ class OpenAIFunctions:
 
     @langchain.agents.tool
     def get_movie_by_id(self, id: uuid.UUID) -> models.Movie | None:
-        """Returns a movie data by movie id."""
+        """Provide a movie data by movie id."""
         self.logger.info("Request to get movie by id: %s", id)
         return None
 
     @langchain.agents.tool
     def get_similar_movies(self, id: uuid.UUID) -> list[models.Movie] | None:
-        """Returns a similar movies to movie with movie id."""
+        """Provide similar movies for the given movie ID."""
+
         self.logger.info("Request to get movie by id: %s", id)
         return None

@@ -4,8 +4,8 @@ import typing
 import openai
 import openai.error
 
-import lib.agent.models as models
 import lib.app.settings as app_settings
+import lib.models as models
 
 
 class EmbeddingRepository:
@@ -23,7 +23,7 @@ class EmbeddingRepository:
                 input=text,
                 model=model,
             )  # type: ignore[reportGeneralTypeIssues]
-            return response["data"][0]["embedding"]
+            return models.Embedding(**response["data"][0]["embedding"])
         except openai.error.OpenAIError:
             self.logger.exception("Failed to get async embedding for: %s", text)
 

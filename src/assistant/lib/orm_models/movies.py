@@ -10,7 +10,7 @@ import lib.orm_models.base as base_models
 
 
 class Genre(base_models.Base):
-    __tablename__: str = "genre"
+    __tablename__: str = "genre"  # type: ignore[reportIncompatibleVariableOverride]
 
     id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
     name: sa_orm.Mapped[str] = sa_orm.mapped_column()
@@ -24,7 +24,7 @@ class Genre(base_models.Base):
 
 
 class Person(base_models.Base):
-    __tablename__: str = "person"
+    __tablename__: str = "person"  # type: ignore[reportIncompatibleVariableOverride]
 
     id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
     full_name: sa_orm.Mapped[str] = sa_orm.mapped_column()
@@ -37,10 +37,10 @@ class Person(base_models.Base):
 
 
 class FilmWork(base_models.Base):
-    __tablename__: str = "film_work"
+    __tablename__: str = "film_work"  # type: ignore[reportIncompatibleVariableOverride]
 
     id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
-    title: sa_orm.Mapped[str]
+    title: sa_orm.Mapped[str] = sa_orm.mapped_column()
     description: sa_orm.Mapped[str] = sa_orm.mapped_column(nullable=True)
     creation_date: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(nullable=True)
     file_path: sa_orm.Mapped[str] = sa_orm.mapped_column(nullable=True)
@@ -77,7 +77,7 @@ PersonFilmWork = sa.Table(
 
 
 class ChatHistory(base_models.Base):
-    __tablename__: str = "chat_history"
+    __tablename__: str = "chat_history"  # type: ignore[reportIncompatibleVariableOverride]
 
     id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
     session_id: sa_orm.Mapped[str] = sa_orm.mapped_column()

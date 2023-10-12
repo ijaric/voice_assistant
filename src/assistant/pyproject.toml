@@ -92,7 +92,8 @@ variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 
 [tool.pyright]
 exclude = [
-  ".venv"
+  ".venv",
+  "alembic"
 ]
 pythonPlatform = "All"
 pythonVersion = "3.11"

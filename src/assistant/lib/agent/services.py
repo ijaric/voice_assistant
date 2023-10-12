@@ -10,9 +10,8 @@ import langchain.prompts
 import langchain.schema.agent
 import langchain.schema.messages
 import langchain.tools.render
-import models
-import varname
 
+import assistant.lib.models.movies as movies
 import lib.agent.openai_functions as openai_functions
 import lib.app.settings as app_settings
 
