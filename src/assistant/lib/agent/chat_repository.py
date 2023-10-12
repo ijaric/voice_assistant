@@ -17,13 +17,18 @@ class ChatHistoryRepository:
     async def get_last_session_id(self, request: models.RequestLastSessionId) -> uuid.UUID | None:
         """Get a current session ID if exists."""
 
+        self.logger.debug("get_last_session_id: %s", request)
         try:
             async with self.pg_async_session() as session:
                 statement = (
                     sa.select(orm_models.ChatHistory)
                     .filter_by(channel=request.channel, user_id=request.user_id)
                     .filter(
-                        (sa.func.extract("epoch", sa.text("NOW()")) - sa.func.extract("epoch", orm_models.ChatHistory.created)) / 60
+                        (
+                            sa.func.extract("epoch", sa.text("NOW()"))
+                            - sa.func.extract("epoch", orm_models.ChatHistory.created)
+                        )
+                        / 60
                         <= request.minutes_ago
                     )
                     .order_by(orm_models.ChatHistory.created.desc())
@@ -37,36 +42,31 @@ class ChatHistoryRepository:
         except sqlalchemy.exc.SQLAlchemyError as error:
             self.logger.exception("Error: %s", error)
 
-    async def get_messages_by_sid(self, request: models.RequestChatHistory):
+    async def get_messages_by_sid(self, request: models.RequestChatHistory) -> list[models.Message] | None:
         """Get all messages of a chat by session ID."""
 
+        self.logger.debug("get_messages_by_sid: %s", request)
         try:
             async with self.pg_async_session() as session:
+                messages: list[models.Message] = []
                 statement = (
                     sa.select(orm_models.ChatHistory)
-                    .filter_by(id=request.session_id)
-                    .order_by(orm_models.ChatHistory.created.desc())
+                    .filter_by(session_id=request.session_id)
+                    .order_by(orm_models.ChatHistory.created.asc())
                 )
+                print("get_messages_by_sid:", statement)
                 result = await session.execute(statement)
                 for row in result.scalars().all():
-                    print("Row: ", row)
+                    # TODO: Было бы интересно понять почему pyright ругается ниже и как правильно вызывать компоненты
+                    messages.append(models.Message(role=row.content["role"], content=row.content["content"]))  # type: ignore[reportGeneralTypeIssues]
+                return messages
         except sqlalchemy.exc.SQLAlchemyError as error:
             self.logger.exception("Error: %s", error)
 
-    # async def get_all_by_session_id(self, request: models.RequestChatHistory) -> list[models.ChatHistory]:
-    #     try:
-    #         async with self.pg_async_session() as session:
-    #             statement = (
-    #                 sa.select(orm_models.ChatHistory)
-    #                 .filter_by(id=request.session_id)
-    #                 .order_by(orm_models.ChatHistory.created.desc())
-    #             )
-    #             result = await session.execute(statement)
-
-    #             return [models.ChatHistory.from_orm(chat_history) for chat_history in result.scalars().all()]
-
-    async def add_message(self, request: models.ChatMessage) -> None:
+    async def add_message(self, request: models.RequestChatMessage) -> None:
         """Add a message to the chat history."""
+
+        self.logger.debug("add_message: %s", request)
         try:
             async with self.pg_async_session() as session:
                 chat_history = orm_models.ChatHistory(

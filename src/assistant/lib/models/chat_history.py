@@ -11,7 +11,7 @@ class RequestLastSessionId(pydantic.BaseModel):
     minutes_ago: int
 
 
-class ChatMessage(pydantic.BaseModel):
+class RequestChatMessage(pydantic.BaseModel):
     """A chat message."""
 
     session_id: uuid.UUID
@@ -24,3 +24,10 @@ class RequestChatHistory(pydantic.BaseModel):
     """Request for chat history."""
 
     session_id: uuid.UUID
+
+
+class Message(pydantic.BaseModel):
+    """A chat message."""
+
+    role: str
+    content: str
