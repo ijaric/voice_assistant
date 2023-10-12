@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 import lib.app.settings as app_settings
 import lib.models as models
+import lib.orm_models as orm_models
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -18,6 +19,10 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 config.set_main_option("sqlalchemy.url", app_settings.Settings().postgres.dsn)
+
+print("BASE: ", orm_models.Base.metadata.schema)
+for t in orm_models.Base.metadata.sorted_tables:
+    print(t.name)
 
 target_metadata = models.Base.metadata
 

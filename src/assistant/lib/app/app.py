@@ -6,6 +6,7 @@ import typing
 import fastapi
 import uvicorn
 
+import lib.agent as agent
 import lib.api.v1.handlers as api_v1_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings
@@ -73,6 +74,7 @@ class Application:
 
         logger.info("Initializing repositories")
         stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
+        chat_history_repository = agent.ChatHistoryRepository(pg_async_session=postgres_client.get_async_session())
 
         # Caches
 
@@ -87,6 +89,7 @@ class Application:
 
         logger.info("Initializing handlers")
         liveness_probe_handler = api_v1_handlers.basic_router
+        agent_handler = api_v1_handlers.AgentHandler(chat_history_repository=chat_history_repository).router
 
         logger.info("Creating application")
 
@@ -100,6 +103,7 @@ class Application:
 
         # Routes
         fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
+        fastapi_app.include_router(agent_handler, prefix="/api/v1/agent", tags=["testing"])
 
         application = Application(
             settings=settings,

@@ -16,20 +16,12 @@ class Base(sa_orm.DeclarativeBase):
         return cls.__name__.lower()
 
     __mapper_args__ = {"eager_defaults": True}
-
-    id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
+    __table_args__ = {"schema": "content"}
 
 
 class IdCreatedUpdatedBaseMixin:
-    # id: sa_orm.Mapped[int] = sa_orm.mapped_column(primary_key=True)
-    # id_field: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(name="uuid", primary_key=True, unique=True, default=uuid.uuid4, nullable=False)
+    id: sa_orm.Mapped[uuid.UUID] = sa_orm.mapped_column(primary_key=True, default=uuid.uuid4)
     created: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(server_default=sa_sql.func.now())
     updated: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(
         server_default=sa_sql.func.now(), onupdate=sa_sql.func.now()
     )
-
-    # __mapper_args__ = {"eager_defaults": True}
-
-    # @sqlalchemy.ext.declarative.declared_attr.directive
-    # def __tablename__(cls) -> str:
-    #     return cls.__name__.lower()
