@@ -25,10 +25,12 @@ asyncpg = "^0.28.0"
 fastapi = "0.103.1"
 greenlet = "^2.0.2"
 httpx = "^0.25.0"
+multidict = "^6.0.4"
 orjson = "^3.9.7"
-psycopg2 = "^2.9.7"
+psycopg2-binary = "^2.9.9"
 pydantic = {extras = ["email"], version = "^2.3.0"}
 pydantic-settings = "^2.0.3"
+pytest-asyncio = "^0.21.1"
 python = "^3.11"
 python-jose = "^3.3.0"
 sqlalchemy = "^2.0.20"
@@ -86,6 +88,7 @@ variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 
 [tool.pyright]
 exclude = [
+  ".pytest_cache",
   ".venv"
 ]
 pythonPlatform = "All"
