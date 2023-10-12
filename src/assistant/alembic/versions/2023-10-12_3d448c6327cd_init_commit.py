@@ -24,7 +24,7 @@ def upgrade() -> None:
     op.create_table(
         "chat_history",
         sa.Column("id", sa.Uuid(), nullable=False),
-        sa.Column("session_id", sa.String(), nullable=False),
+        sa.Column("session_id", sa.Uuid(), nullable=False),
         sa.Column("channel", sa.String(), nullable=False),
         sa.Column("user_id", sa.String(), nullable=False),
         sa.Column("content", sa.JSON(), nullable=False),
@@ -33,39 +33,6 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("id"),
         schema="content",
     )
-    op.drop_table("auth_group")
-    op.drop_table("auth_user_groups")
-    op.drop_table("auth_group_permissions")
-    op.drop_table("auth_user_user_permissions")
-    op.drop_table("auth_user")
-    op.drop_table("django_content_type")
-    op.drop_table("auth_permission")
-    op.drop_table("django_session")
-    op.drop_table("django_admin_log")
-    op.drop_table("django_migrations")
-    op.alter_column("film_work", "title", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=False)
-    op.alter_column("film_work", "description", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=True)
-    op.alter_column("film_work", "creation_date", existing_type=sa.DATE(), type_=sa.DateTime(), existing_nullable=True)
-    op.alter_column("film_work", "file_path", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=True)
-    op.alter_column("film_work", "type", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=False)
-    op.alter_column("film_work", "created", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.alter_column("film_work", "modified", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.alter_column("genre", "name", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=False)
-    op.alter_column("genre", "description", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=True)
-    op.alter_column("genre", "created", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.alter_column("genre", "modified", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.create_foreign_key(None, "genre_film_work", "genre", ["genre_id"], ["id"], referent_schema="content")
-    op.create_foreign_key(None, "genre_film_work", "film_work", ["film_work_id"], ["id"], referent_schema="content")
-    op.alter_column("person", "full_name", existing_type=sa.TEXT(), type_=sa.String(), existing_nullable=False)
-    op.alter_column("person", "created", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.alter_column("person", "modified", existing_type=postgresql.TIMESTAMP(timezone=True), nullable=False)
-    op.alter_column(
-        "person_film_work", "role", existing_type=sa.TEXT(), type_=sa.String(length=50), existing_nullable=False
-    )
-    op.create_foreign_key(None, "person_film_work", "film_work", ["film_work_id"], ["id"], referent_schema="content")
-    op.create_foreign_key(None, "person_film_work", "person", ["person_id"], ["id"], referent_schema="content")
-    op.drop_column("person_film_work", "id")
-    # ### end Alembic commands ###
 
 
 def downgrade() -> None:

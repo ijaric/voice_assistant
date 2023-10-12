@@ -6,7 +6,6 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 import lib.app.settings as app_settings
-import lib.models as models
 import lib.orm_models as orm_models
 from alembic import context
 
@@ -24,7 +23,7 @@ print("BASE: ", orm_models.Base.metadata.schema)
 for t in orm_models.Base.metadata.sorted_tables:
     print(t.name)
 
-target_metadata = models.Base.metadata
+target_metadata = orm_models.Base.metadata
 
 
 def run_migrations_offline() -> None:

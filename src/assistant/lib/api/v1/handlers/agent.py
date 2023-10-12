@@ -1,3 +1,5 @@
+import uuid
+
 import fastapi
 
 import lib.agent as agent
@@ -15,9 +17,27 @@ class AgentHandler:
             summary="Статус работоспособности",
             description="Проверяет доступность сервиса FastAPI.",
         )
+        self.router.add_api_route(
+            "/add",
+            self.add_message,
+            methods=["GET"],
+            summary="Статус работоспособности",
+            description="Проверяет доступность сервиса FastAPI.",
+        )
 
     async def get_agent(self):
-        request = models.RequestLastSessionId(channel="test", user_id="test", minutes_ago=3)
+        request = models.RequestLastSessionId(channel="test", user_id="user_id_1", minutes_ago=3)
         response = await self.chat_history_repository.get_last_session_id(request=request)
         print("RESPONSE: ", response)
         return {"response": response}
+
+    async def add_message(self):
+        sid: uuid.UUID = uuid.UUID("0cd3c882-affd-4929-aff1-e1724f5b54f2")
+        import faker
+        fake = faker.Faker()
+        
+        message = models.ChatMessage(
+            session_id=sid, user_id="user_id_1", channel="test", message={"role": "system", "content": fake.sentence()}
+        )
+        await self.chat_history_repository.add_message(request=message)
+        return {"response": "ok"}

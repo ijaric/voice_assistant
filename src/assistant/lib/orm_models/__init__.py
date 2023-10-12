@@ -1,5 +1,6 @@
 from .base import Base, IdCreatedUpdatedBaseMixin
-from .movies import ChatHistory, FilmWork, Genre, GenreFilmWork, Person, PersonFilmWork
+from .chat_history import ChatHistory
+from .movies import FilmWork, Genre, GenreFilmWork, Person, PersonFilmWork
 
 __all__ = [
     "Base",
