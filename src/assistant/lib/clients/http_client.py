@@ -17,7 +17,7 @@ class AsyncHttpClient(httpx.AsyncClient):
         self.proxies = self.__get_proxies_from_settings()
         self.client_params = client_params
 
-        super().__init__(base_url=self.base_url, proxies=self.proxies, **client_params)
+        super().__init__(base_url=self.base_url, proxies=self.proxies, **client_params)  # type: ignore[reportGeneralTypeIssues]
 
     def __get_proxies_from_settings(self) -> dict[str, str] | None:
         if not self.proxy_settings.enable:
