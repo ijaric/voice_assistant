@@ -100,6 +100,7 @@ jobs:
 
       - name: Test Package
         env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           POSTGRES_DRIVER: ${{ vars.POSTGRES_DRIVER }}
