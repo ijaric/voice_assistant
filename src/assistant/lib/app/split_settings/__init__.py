@@ -7,7 +7,6 @@ from .project import *
 from .proxy import *
 from .voice import *
 
-
 __all__ = [
     "ApiSettings",
     "AppSettings",
