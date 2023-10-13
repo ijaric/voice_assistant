@@ -3,6 +3,7 @@ import tempfile
 
 import magic
 import openai
+import pydantic
 
 import lib.app.settings as app_settings
 import lib.stt as stt
@@ -26,13 +27,15 @@ class OpenaiSpeechRepository:
         file_extension = self.__get_file_extension_from_bytes(audio)
         if not file_extension:
             raise ValueError("File extension is not supported")
-
-        voice: stt.models.SttVoice = stt.models.SttVoice(
-            audio_size=len(audio) // 1024,  # audio size in MB,
-            audio_format=file_extension,
-            audio_data=audio,
-            voice_settings=self.settings.voice,
-        )
+        try:
+            voice: stt.models.SttVoice = stt.models.SttVoice(
+                audio_size=len(audio) // 1024,  # audio size in MB,
+                audio_format=file_extension,
+                audio_data=audio,
+                voice_settings=self.settings.voice,
+            )
+        except (pydantic.ValidationError, ValueError) as e:
+            raise ValueError(f"Voice validation error: {e}")
 
         try:
             with tempfile.NamedTemporaryFile(suffix=f".{file_extension}") as temp_file:
