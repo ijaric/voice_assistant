@@ -27,7 +27,6 @@ class OpenaiSpeechRepository:
 
     async def speech_to_text(self, audio: bytes) -> str:
         file_extension = self.__get_file_extension_from_bytes(audio)
-        print(self.settings.voice)
         if not file_extension or file_extension not in self.settings.voice.available_formats:
             raise fastapi.HTTPException(
                 status_code=http.HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
