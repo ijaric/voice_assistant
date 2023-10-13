@@ -11,9 +11,9 @@ class ApiSettings(pydantic_settings.BaseSettings):
         extra="ignore",
     )
 
-    url: str
-    port: int
-    protocol: str
+    url: str = "127.0.0.1"
+    port: int = 8000
+    protocol: str = "http"
 
     @property
     def api_url(self) -> str:
