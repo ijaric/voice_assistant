@@ -12,7 +12,7 @@ class TTSBaseRepository(abc.ABC):
     @property
     @abc.abstractmethod
     def voice_models(self) -> models.LIST_VOICE_MODELS_TYPE:
-        ...
+        raise NotImplementedError
 
     @abc.abstractmethod
     def get_audio_as_bytes(self, request: models.TTSCreateRequestModel) -> models.TTSCreateResponseModel:
