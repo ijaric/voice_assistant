@@ -22,3 +22,9 @@ class Settings(pydantic_settings.BaseSettings):
 
     proxy: app_split_settings.ProxySettings = pydantic.Field(default_factory=lambda: app_split_settings.ProxySettings())
     voice: app_split_settings.VoiceSettings = pydantic.Field(default_factory=lambda: app_split_settings.VoiceSettings())
+    tts_yandex: app_split_settings.TTSYandexSettings = pydantic.Field(
+        default_factory=lambda: app_split_settings.TTSYandexSettings()
+    )
+    tts_eleven_labs: app_split_settings.TTSElevenLabsSettings = pydantic.Field(
+        default_factory=lambda: app_split_settings.TTSElevenLabsSettings()
+    )
