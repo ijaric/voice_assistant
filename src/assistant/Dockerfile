@@ -13,7 +13,7 @@ COPY poetry.toml /opt/app/poetry.toml
 
 WORKDIR /opt/app
 
-RUN pip install poetry \    
+RUN pip install poetry \
     && poetry install --no-dev
 
 COPY bin /opt/app/bin

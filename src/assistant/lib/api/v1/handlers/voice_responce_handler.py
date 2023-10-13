@@ -1,6 +1,8 @@
-import fastapi
+import io
 
-import lib.models.tts.voice as models_tts_voice
+import fastapi
+import http
+
 import lib.stt.services as stt_services
 
 
@@ -16,13 +18,17 @@ class VoiceResponseHandler:
             self.voice_response,
             methods=["POST"],
             summary="Ответ голосового помощника",
-            description="Ответ голосового помощника",
+            description="Маршрут возвращает потоковый ответ аудио",
         )
 
     async def voice_response(
         self,
         voice: bytes = fastapi.File(...),
-        voice_model: models_tts_voice.VoiceModelProvidersEnum = fastapi.Depends(),
-    ) -> dict[str, str]:
+    ) -> fastapi.responses.StreamingResponse:
         voice_text: str = await self.stt.recognize(voice)
-        return {"text": voice_text}
+        if voice_text == "":
+            raise fastapi.HTTPException(status_code=http.HTTPStatus.BAD_REQUEST, detail="Speech recognition failed")
+        # TODO: Добавить обработку текста через клиента openai
+        # TODO: Добавить синтез речи через клиента tts
+        # TODO: Заменить заглушку на реальный ответ
+        return fastapi.responses.StreamingResponse(io.BytesIO(voice), media_type="audio/ogg")
