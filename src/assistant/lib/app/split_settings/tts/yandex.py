@@ -17,6 +17,7 @@ class TTSYandexSettings(pydantic_settings.BaseSettings):
     audio_format: typing.Literal["oggopus", "mp3", "lpcm"] = "oggopus"
     sample_rate_hertz: int = 48000
     api_key: pydantic.SecretStr = pydantic.Field(default=...)
+    base_url: str = "https://tts.api.cloud.yandex.net/speech/v1/"
 
     @property
     def base_headers(self) -> dict[str, str]:

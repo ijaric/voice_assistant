@@ -62,11 +62,11 @@ class Application:
 
         http_yandex_tts_client = clients.AsyncHttpClient(
             proxy_settings=settings.proxy,
-            base_url="https://tts.api.cloud.yandex.net/speech/v1/",
+            base_url=settings.tts_yandex.base_url,
             headers=settings.tts_yandex.base_headers,
         )
         http_eleven_labs_tts_client = clients.AsyncHttpClient(
-            base_url="https://api.elevenlabs.io/v1/",
+            base_url=settings.tts_eleven_labs.base_url,
             headers=settings.tts_eleven_labs.base_headers,
         )
 
