@@ -1,14 +1,11 @@
 import abc
 
+import lib.clients as clients
 import lib.models as models
 
 
-class HttpClient:  # Mocked class todo remove and use real http client from lib.clients.http_client
-    ...
-
-
 class TTSBaseRepository(abc.ABC):
-    def __init__(self, client: HttpClient, is_models_from_api: bool = False):
+    def __init__(self, client: clients.AsyncHttpClient, is_models_from_api: bool = False):
         self.http_client = client
         self.is_models_from_api = is_models_from_api
 
