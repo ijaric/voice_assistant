@@ -1,6 +1,8 @@
+import http
 import mimetypes
 import tempfile
 
+import fastapi
 import magic
 import openai
 import pydantic
@@ -25,8 +27,13 @@ class OpenaiSpeechRepository:
 
     async def speech_to_text(self, audio: bytes) -> str:
         file_extension = self.__get_file_extension_from_bytes(audio)
-        if not file_extension:
-            raise ValueError("File extension is not supported")
+        print(self.settings.voice)
+        if not file_extension or file_extension not in self.settings.voice.available_formats:
+            raise fastapi.HTTPException(
+                status_code=http.HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
+                detail=f"File extension is not supported. "
+                f"Available extensions: {self.settings.voice.available_formats}",
+            )
         try:
             voice: stt.models.SttVoice = stt.models.SttVoice(
                 audio_size=len(audio) // 1024,  # audio size in MB,
@@ -35,7 +42,10 @@ class OpenaiSpeechRepository:
                 voice_settings=self.settings.voice,
             )
         except (pydantic.ValidationError, ValueError) as e:
-            raise ValueError(f"Voice validation error: {e}")
+            raise fastapi.HTTPException(
+                status_code=http.HTTPStatus.BAD_REQUEST,
+                detail=f"Voice validation error: {e}",
+            )
 
         try:
             with tempfile.NamedTemporaryFile(suffix=f".{file_extension}") as temp_file:
@@ -43,8 +53,14 @@ class OpenaiSpeechRepository:
                 temp_file.seek(0)
                 transcript = openai.Audio.transcribe(self.settings.openai.stt_model, temp_file)  # type: ignore
         except openai.error.InvalidRequestError as e:  # type: ignore[reportGeneralTypeIssues]
-            raise ValueError(f"OpenAI API error: {e}")
+            raise fastapi.HTTPException(
+                status_code=http.HTTPStatus.BAD_REQUEST,
+                detail=f"OpenAI request error: {e}",
+            )
         except openai.error.OpenAIError as e:  # type: ignore[reportGeneralTypeIssues]
-            raise ValueError(f"OpenAI API error: {e}")
+            raise fastapi.HTTPException(
+                status_code=http.HTTPStatus.BAD_REQUEST,
+                detail=f"OpenAI API error: {e}",
+            )
 
         return transcript.text  # type: ignore[reportUnknownVariableType]

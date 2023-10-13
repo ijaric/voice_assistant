@@ -1,6 +1,5 @@
-from .base import HealthResponse, VoiceResponse
+from .base import HealthResponse
 
 __all__ = [
     "HealthResponse",
-    "VoiceResponse",
 ]
