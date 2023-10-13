@@ -11,7 +11,9 @@ import lib.app.errors as app_errors
 import lib.app.settings as app_settings
 import lib.app.split_settings as app_split_settings
 import lib.clients as clients
+import lib.models as models
 import lib.stt as stt
+import lib.tts as tts
 
 logger = logging.getLogger(__name__)
 
@@ -59,13 +61,25 @@ class Application:
         logger.info("Initializing clients")
 
         http_yandex_tts_client = clients.AsyncHttpClient(
-            base_url="yandex",  # todo add yandex api url from settings
             proxy_settings=settings.proxy,
+            base_url="https://tts.api.cloud.yandex.net/speech/v1/",
+            headers=settings.tts_yandex.base_headers,
         )
+        http_eleven_labs_tts_client = clients.AsyncHttpClient(
+            base_url="https://api.elevenlabs.io/v1/",
+            headers=settings.tts_eleven_labs.base_headers,
+        )
+
         disposable_resources.append(
             DisposableResource(
                 name="http_client yandex",
                 dispose_callback=http_yandex_tts_client.close(),
+            )
+        )
+        disposable_resources.append(
+            DisposableResource(
+                name="http_client eleven labs",
+                dispose_callback=http_eleven_labs_tts_client.close(),
             )
         )
 
@@ -73,6 +87,16 @@ class Application:
 
         logger.info("Initializing repositories")
         stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
+
+        tts_yandex_repository = tts.TTSYandexRepository(
+            tts_settings=app_split_settings.TTSYandexSettings(),
+            client=http_yandex_tts_client,
+        )
+        tts_eleven_labs_repository = tts.TTSElevenLabsRepository(
+            tts_settings=app_split_settings.TTSElevenLabsSettings(),
+            client=http_eleven_labs_tts_client,
+            is_models_from_api=True,
+        )
 
         # Caches
 
@@ -83,6 +107,12 @@ class Application:
         logger.info("Initializing services")
         stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
 
+        tts_service: tts.TTSService = tts.TTSService(  # type: ignore
+            repositories={
+                models.VoiceModelProvidersEnum.YANDEX: tts_yandex_repository,
+                models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
+            },
+        )
         # Handlers
 
         logger.info("Initializing handlers")
