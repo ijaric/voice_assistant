@@ -24,7 +24,6 @@ class TTSElevenLabsRepository(tts_repositories_base.TTSBaseRepository):
 
     async def get_all_models_dict_from_api(self) -> list[dict[str, typing.Any]]:
         response = await self.http_client.get("/models")
-        print(response)
         return response.json()
 
     async def get_audio_as_bytes(self, request: models.TTSCreateRequestModel) -> models.TTSCreateResponseModel:
