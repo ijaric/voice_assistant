@@ -1,3 +1,4 @@
+import json
 import io
 import typing
 
@@ -41,7 +42,11 @@ async def voice_response(message_voice: aiogram.types.Message):
                         "We were unable to send you a voice message. Please check your privacy settings."
                     )
             else:
-                await message_voice.answer("Not recognized text")
+                error_text: str = await resp.text()
+                if error_text == "":
+                    await message_voice.answer(f"Error: {resp.status}")
+                else:
+                    await message_voice.answer(f"Error: {json.loads(error_text)['detail']}")
         await session.close()
     return
 
