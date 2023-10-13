@@ -111,6 +111,8 @@ jobs:
           API_HOST: ${{ vars.API_HOST }}
           API_PORT: ${{ vars.API_PORT }}
           APP_RELOAD: ${{ vars.APP_RELOAD }}
+          TTS_YANDEX_API_KEY: ${{ secrets.TTS_YANDEX_API_KEY }}
+          TTS_ELEVEN_LABS_API_KEY: ${{ secrets.TTS_ELEVEN_LABS_API_KEY }}
         working-directory: src/${{ matrix.package }}
         run: |
           make ci-test
