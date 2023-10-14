@@ -81,12 +81,17 @@ class Application:
         # Services
 
         logger.info("Initializing services")
-        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
-
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)
         # Handlers
 
         logger.info("Initializing handlers")
         liveness_probe_handler = api_v1_handlers.basic_router
+
+        # TODO: объявить сервисы tts и openai и добавить их в voice_response_handler
+        voice_response_handler = api_v1_handlers.VoiceResponseHandler(
+            stt=stt_service,
+            # tts=tts_service,  # TODO
+        ).router
 
         logger.info("Creating application")
 
@@ -100,6 +105,7 @@ class Application:
 
         # Routes
         fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
+        fastapi_app.include_router(voice_response_handler, prefix="/api/v1/voice", tags=["voice"])
 
         application = Application(
             settings=settings,

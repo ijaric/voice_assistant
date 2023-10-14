@@ -1,3 +1,7 @@
 from .health import basic_router
+from .voice_responce_handler import VoiceResponseHandler
 
-__all__ = ["basic_router"]
+__all__ = [
+    "VoiceResponseHandler",
+    "basic_router",
+]
