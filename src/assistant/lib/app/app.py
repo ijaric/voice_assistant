@@ -115,7 +115,7 @@ class Application:
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
-        
+
         # Handlers
 
         logger.info("Initializing handlers")
