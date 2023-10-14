@@ -88,7 +88,10 @@ class Application:
         liveness_probe_handler = api_v1_handlers.basic_router
 
         # TODO: объявить сервисы tts и openai и добавить их в voice_response_handler
-        voice_response_handler = api_v1_handlers.VoiceResponseHandler(stt=stt_service).router
+        voice_response_handler = api_v1_handlers.VoiceResponseHandler(
+            stt=stt_service,
+            # tts=tts_service,  # TODO
+        ).router
 
         logger.info("Creating application")
 
