@@ -99,6 +99,18 @@ jobs:
           make lint
 
       - name: Test Package
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          POSTGRES_DRIVER: ${{ vars.POSTGRES_DRIVER }}
+          POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          NGINX_PORT: ${{ vars.NGINX_PORT }}
+          API_HOST: ${{ vars.API_HOST }}
+          API_PORT: ${{ vars.API_PORT }}
+          APP_RELOAD: ${{ vars.APP_RELOAD }}
         working-directory: src/${{ matrix.package }}
         run: |
           make ci-test
