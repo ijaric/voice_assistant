@@ -13,34 +13,18 @@ profile = "black"
 py_version = "311"
 
 [tool.poetry]
-authors = ["ijaric@gmail.com", "jsdio@jsdio.ru"]
+authors = ["jsdio@jsdio.ru"]
 description = ""
-name = "fastapi_project"
+name = "bot_aiogram"
 readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-alembic = "^1.12.0"
-asyncpg = "^0.28.0"
-dill = "^0.3.7"
-fastapi = "0.103.1"
-greenlet = "^2.0.2"
-httpx = "^0.25.0"
-multidict = "^6.0.4"
-openai = "^0.28.1"
-orjson = "3.9.7"
-psycopg2-binary = "^2.9.9"
-pydantic = {extras = ["email"], version = "^2.3.0"}
+aiogram = "2.18"
+environs = "9.0"
 pydantic-settings = "^2.0.3"
-pytest = "^7.4.2"
 pytest-asyncio = "^0.21.1"
 python = "^3.11"
-python-jose = "^3.3.0"
-python-magic = "^0.4.27"
-python-multipart = "^0.0.6"
-sqlalchemy = "^2.0.20"
-uvicorn = "^0.23.2"
-wrapt = "^1.15.0"
 
 [tool.poetry.dev-dependencies]
 black = "^23.7.0"
@@ -87,8 +71,8 @@ max-line-length = 120
 recursive = true
 
 [tool.pylint.basic]
-argument-rgx = "^_{0,2}[a-z][a-z0-9]*$"
-attr-rgx = "^_{0,2}[a-z][a-z0-9]*$"
+argument-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
+attr-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 class-attribute-rgx = "^_{0,2}[a-zA-Z][a-zA-Z0-9_]*$"
 variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 

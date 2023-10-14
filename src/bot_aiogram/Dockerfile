@@ -17,7 +17,6 @@ RUN pip install poetry \
     && poetry install --no-dev
 
 COPY bin /opt/app/bin
-COPY lib /opt/app/lib
-COPY entrypoint.sh /opt/app/entrypoint.sh
+COPY tgbot /opt/app/tgbot
 
-RUN chmod +x /opt/app/entrypoint.sh
+CMD [".venv/bin/python", "-m", "bin"]
