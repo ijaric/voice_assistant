@@ -1,7 +1,7 @@
+import http
 import io
 
 import fastapi
-import http
 
 import lib.stt.services as stt_services
 
