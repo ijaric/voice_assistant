@@ -1,9 +1,5 @@
-from .repositories import *
-from .services import *
+from .services import TTSService
 
 __all__ = [
-    "TTSBaseRepository",
-    "TTSElevenLabsRepository",
     "TTSService",
-    "TTSYandexRepository",
 ]

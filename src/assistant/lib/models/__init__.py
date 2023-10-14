@@ -8,8 +8,6 @@ __all__ = [
     "BaseLanguageCodesEnum",
     "BaseVoiceModel",
     "ElevenLabsLanguageCodesEnum",
-    "ElevenLabsListVoiceModelsModel",
-    "ElevenLabsVoiceModel",
     "IdCreatedUpdatedBaseMixin",
     "LANGUAGE_CODES_ENUM_TYPE",
     "LIST_VOICE_MODELS_TYPE",
@@ -19,6 +17,4 @@ __all__ = [
     "Token",
     "VoiceModelProvidersEnum",
     "YandexLanguageCodesEnum",
-    "YandexListVoiceModelsModel",
-    "YandexVoiceModel",
 ]
