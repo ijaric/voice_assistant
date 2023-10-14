@@ -64,10 +64,12 @@ class Application:
             proxy_settings=settings.proxy,
             base_url=settings.tts_yandex.base_url,
             headers=settings.tts_yandex.base_headers,
+            timeout=settings.tts_yandex.timeout_seconds,
         )
         http_eleven_labs_tts_client = clients.AsyncHttpClient(
             base_url=settings.tts_eleven_labs.base_url,
             headers=settings.tts_eleven_labs.base_headers,
+            timeout=settings.tts_eleven_labs.timeout_seconds,
         )
 
         disposable_resources.append(

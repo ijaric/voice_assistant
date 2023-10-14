@@ -15,6 +15,7 @@ class TTSElevenLabsSettings(pydantic_settings.BaseSettings):
     api_key: pydantic.SecretStr = pydantic.Field(default=...)
     default_voice_id: str = "EXAVITQu4vr4xnSDxMaL"
     base_url: str = "https://api.elevenlabs.io/v1/"
+    timeout_seconds: int = 30
 
     @property
     def base_headers(self) -> dict[str, str]:

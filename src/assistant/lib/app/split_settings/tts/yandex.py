@@ -18,6 +18,7 @@ class TTSYandexSettings(pydantic_settings.BaseSettings):
     sample_rate_hertz: int = 48000
     api_key: pydantic.SecretStr = pydantic.Field(default=...)
     base_url: str = "https://tts.api.cloud.yandex.net/speech/v1/"
+    timeout_seconds: int = 30
 
     @property
     def base_headers(self) -> dict[str, str]:
