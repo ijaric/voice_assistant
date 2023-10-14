@@ -29,14 +29,19 @@ greenlet = "^2.0.2"
 httpx = "^0.25.0"
 langchain = "^0.0.312"
 openai = "^0.28.1"
-orjson = "^3.9.7"
 pgvector = "^0.2.3"
+multidict = "^6.0.4"
+openai = "^0.28.1"
+orjson = "3.9.7"
 psycopg2-binary = "^2.9.9"
 pydantic = {extras = ["email"], version = "^2.3.0"}
 pydantic-settings = "^2.0.3"
+pytest = "^7.4.2"
+pytest-asyncio = "^0.21.1"
 python = "^3.11"
 python-jose = "^3.3.0"
 python-magic = "^0.4.27"
+python-multipart = "^0.0.6"
 sqlalchemy = "^2.0.20"
 uvicorn = "^0.23.2"
 wrapt = "^1.15.0"
@@ -95,6 +100,7 @@ variable-rgx = "^_{0,2}[a-z][a-z0-9_]*$"
 exclude = [
   ".venv",
   "alembic"
+  ".pytest_cache",
 ]
 pythonPlatform = "All"
 pythonVersion = "3.11"
