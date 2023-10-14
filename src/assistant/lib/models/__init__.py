@@ -1,7 +1,11 @@
-from .orm import Base, IdCreatedUpdatedBaseMixin
+from .chat_history import Message, RequestChatHistory, RequestChatMessage, RequestLastSessionId
+from .embedding import Embedding
+from .movies import Movie
 from .token import Token
 from .tts import *
 
+
+__all__ = ["Embedding", "Message", "Movie", "RequestChatHistory", "RequestChatMessage", "RequestLastSessionId", "Token"]
 __all__ = [
     "AVAILABLE_MODELS_TYPE",
     "Base",
