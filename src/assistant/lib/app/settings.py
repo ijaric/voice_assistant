@@ -12,3 +12,5 @@ class Settings(pydantic_settings.BaseSettings):
     project: app_split_settings.ProjectSettings = app_split_settings.ProjectSettings()
     proxy: app_split_settings.ProxySettings = app_split_settings.ProxySettings()
     voice: app_split_settings.VoiceSettings = app_split_settings.VoiceSettings()
+    tts_yandex: app_split_settings.TTSYandexSettings = app_split_settings.TTSYandexSettings()
+    tts_eleven_labs: app_split_settings.TTSElevenLabsSettings = app_split_settings.TTSElevenLabsSettings()

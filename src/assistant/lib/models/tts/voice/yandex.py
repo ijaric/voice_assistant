@@ -16,6 +16,8 @@ class YandexVoiceModel(models_tts_base.BaseVoiceModel):
     @pydantic.model_validator(mode="before")
     @classmethod
     def check_voice_name_exists(cls, data: typing.Any) -> typing.Any:
+        if not data:
+            return data
         voice_id = data.get("voice_id")
         voice_name = data.get("voice_name")
         role = data.get("role")

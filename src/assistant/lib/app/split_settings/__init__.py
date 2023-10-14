@@ -5,6 +5,7 @@ from .openai import *
 from .postgres import *
 from .project import *
 from .proxy import *
+from .tts import *
 from .voice import *
 
 __all__ = [
@@ -15,6 +16,8 @@ __all__ = [
     "PostgresSettings",
     "ProjectSettings",
     "ProxySettings",
+    "TTSElevenLabsSettings",
+    "TTSYandexSettings",
     "VoiceSettings",
     "get_logging_config",
 ]

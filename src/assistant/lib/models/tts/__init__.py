@@ -6,6 +6,8 @@ __all__ = [
     "BaseLanguageCodesEnum",
     "BaseVoiceModel",
     "ElevenLabsLanguageCodesEnum",
+    "ElevenLabsListVoiceModelsModel",
+    "ElevenLabsVoiceModel",
     "LANGUAGE_CODES_ENUM_TYPE",
     "LIST_VOICE_MODELS_TYPE",
     "TTSCreateRequestModel",
@@ -13,4 +15,6 @@ __all__ = [
     "TTSSearchVoiceRequestModel",
     "VoiceModelProvidersEnum",
     "YandexLanguageCodesEnum",
+    "YandexListVoiceModelsModel",
+    "YandexVoiceModel",
 ]

@@ -71,5 +71,13 @@ class ElevenLabsListVoiceModelsModel(pydantic.BaseModel):
 
     @classmethod
     def from_api(cls, voice_models_from_api: list[dict[str, typing.Any]]) -> typing.Self:
-        voice_models = [ElevenLabsVoiceModel.model_validate(voice_model) for voice_model in voice_models_from_api]
+        voice_models = []
+        for voice_model in voice_models_from_api:
+            voice_model["voice_id"] = voice_model.pop("model_id")
+            voice_model["voice_name"] = voice_model.pop("name")
+            voice_model["languages"] = [
+                models_tts_languages.ElevenLabsLanguageCodesEnum(item.get("language_id"))
+                for item in voice_model.pop("languages")
+            ]
+            voice_models.append(ElevenLabsVoiceModel.model_validate(voice_model))
         return ElevenLabsListVoiceModelsModel(models=voice_models)
