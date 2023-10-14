@@ -1,15 +1,22 @@
 FROM python:3.11
-ENV BOT_NAME=$BOT_NAME
 
-WORKDIR /usr/src/app/"${BOT_NAME:-tg_bot}"
+RUN apt-get update \
+  && DEBIAN_FRONTEND=noninteractive \
+  && apt-get install -y net-tools netcat-traditional curl \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml /usr/src/app/"${BOT_NAME:-tg_bot}"/pyproject.toml
-COPY poetry.lock /usr/src/app/"${BOT_NAME:-tg_bot}"//poetry.lock
-COPY poetry.toml /usr/src/app/"${BOT_NAME:-tg_bot}"/poetry.toml
+RUN mkdir --parents /opt/app
+COPY pyproject.toml /opt/app/pyproject.toml
+COPY poetry.lock /opt/app/poetry.lock
+COPY poetry.toml /opt/app/poetry.toml
 
-WORKDIR /usr/src/app/"${BOT_NAME:-tg_bot}"
+WORKDIR /opt/app
 
 RUN pip install poetry \
     && poetry install --no-dev
 
-COPY . /usr/src/app/"${BOT_NAME:-tg_bot}"
+COPY bin /opt/app/bin
+COPY tgbot /opt/app/tgbot
+
+CMD [".venv/bin/python", "-m", "bin"]
