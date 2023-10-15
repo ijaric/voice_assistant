@@ -7,6 +7,7 @@ import sqlalchemy.ext.asyncio as sa_asyncio
 import lib.agent.repositories as repositories
 import lib.models as models
 import lib.orm_models as orm_models
+import lib.app.settings as app_settings
 
 
 class OpenAIFunctions:
@@ -16,10 +17,12 @@ class OpenAIFunctions:
         self,
         repository: repositories.EmbeddingRepository,
         pg_async_session: sa_asyncio.async_sessionmaker[sa_asyncio.AsyncSession],
+        settings: app_settings.Settings,
     ) -> None:
         self.logger = logging.getLogger(__name__)
         self.pg_async_session = pg_async_session
         self.repository = repository
+        self.settings = settings
 
     async def get_movie_by_description(self, description: str) -> list[models.Movie] | None:
         """Use this function to find data about a movie by movie's description."""
@@ -32,7 +35,7 @@ class OpenAIFunctions:
                 stmt = (
                     sa.select(orm_models.FilmWork)
                     .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))
-                    .limit(5)
+                    .limit(self.settings.agent.embeddings_limit)
                 )
                 response = await session.execute(stmt)
                 neighbours = response.scalars()

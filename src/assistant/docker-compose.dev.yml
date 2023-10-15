@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgres:
-    image: postgres:15.2
+    image: ankane/pgvector:v0.5.0
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -13,6 +13,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql:ro
       - postgres_data:/var/lib/postgresql/data/
     networks:
       - backend_network
@@ -23,7 +24,6 @@ services:
     container_name: fastapi_app
     image: fastapi_app
     restart: always
-    entrypoint: ["/opt/app/entrypoint.sh"]
     env_file:
       - .env
     ports:
@@ -47,9 +47,6 @@ services:
       - api
     networks:
       - api_network
-
-volumes:
-  postgres_data:
 
 networks:
   api_network:

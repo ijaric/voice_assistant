@@ -4,6 +4,7 @@ import lib.app.split_settings as app_split_settings
 
 
 class Settings(pydantic_settings.BaseSettings):
+    agent: app_split_settings.AgentSettings = app_split_settings.AgentSettings()
     api: app_split_settings.ApiSettings = app_split_settings.ApiSettings()
     app: app_split_settings.AppSettings = app_split_settings.AppSettings()
     postgres: app_split_settings.PostgresSettings = app_split_settings.PostgresSettings()

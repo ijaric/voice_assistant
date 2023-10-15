@@ -1,3 +1,4 @@
+from .agent import *
 from .api import *
 from .app import *
 from .logger import *
@@ -9,6 +10,7 @@ from .tts import *
 from .voice import *
 
 __all__ = [
+    "AgentSettings",
     "ApiSettings",
     "AppSettings",
     "LoggingSettings",

@@ -23,7 +23,6 @@ services:
     container_name: api
     image: fastapi_app
     restart: always
-    entrypoint: ["/opt/app/entrypoint.sh"]
     env_file:
       - .env
     expose:

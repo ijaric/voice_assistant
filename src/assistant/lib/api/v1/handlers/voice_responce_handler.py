@@ -47,4 +47,3 @@ class VoiceResponseHandler:
             )
         )
         return fastapi.responses.StreamingResponse(io.BytesIO(response.audio_content), media_type="audio/ogg")
-        # return fastapi.responses.StreamingResponse(io.BytesIO(voice), media_type="audio/ogg")

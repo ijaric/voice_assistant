@@ -1,7 +1,7 @@
 #!/bin/bash
 
-while ! nc -z postgres 5432; do sleep 1; done;
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do sleep 1; done;
 
-alembic upgrade head
+poetry run alembic upgrade head
 
 exec .venv/bin/python -m bin

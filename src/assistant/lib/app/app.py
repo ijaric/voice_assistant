@@ -97,7 +97,9 @@ class Application:
         )
         embedding_repository = agent_repositories.EmbeddingRepository(settings=settings)
         agent_tools = agent_functions.OpenAIFunctions(
-            repository=embedding_repository, pg_async_session=postgres_client.get_async_session()
+            repository=embedding_repository,
+            pg_async_session=postgres_client.get_async_session(),
+            settings=settings
         )
         tts_yandex_repository = tts.TTSYandexRepository(
             tts_settings=app_split_settings.TTSYandexSettings(),
