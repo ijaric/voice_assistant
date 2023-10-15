@@ -49,7 +49,7 @@ class TTSBaseRepository(abc.ABC):
                         continue
                     break
                 voice_model_dump = voice_model.model_dump()
-                if voice_model_dump[field] != field_value.name:
+                if voice_model_dump[field] != field_value:
                     break
             else:
                 voice_models_response.append(voice_model)
