@@ -1,5 +1,6 @@
-import lib.app.split_settings.utils as app_split_settings_utils
 import pydantic_settings
+
+import lib.app.split_settings.utils as app_split_settings_utils
 
 
 class LoggingSettings(pydantic_settings.BaseSettings):

@@ -49,7 +49,7 @@ class AgentService:
 
         template = """
         1. You are movie expert with a vast knowledge base about movies and their related aspects.
-        2. Use functions to get an additional data about movies.        
+        2. Use functions to get an additional data about movies.
         3. Translate each inbound request into English language. Before calling any functions.
         4. Answer always in Russian language.
         5. Be very concise. You answer must be no longer than 100 words."""
@@ -77,12 +77,13 @@ class AgentService:
         # Load chat history from database
         request_chat_history = models.RequestChatHistory(session_id=session_id)
         chat_history = await self.chat_repository.get_messages_by_sid(request_chat_history)
-        for entry in chat_history:
-            if entry.role == "user":
-                memory.chat_memory.add_user_message(entry.content)
-            elif entry.role == "agent":
-                memory.chat_memory.add_ai_message(entry.content)
-        
+        if chat_history:
+            for entry in chat_history:
+                if entry.role == "user":
+                    memory.chat_memory.add_user_message(entry.content)
+                elif entry.role == "agent":
+                    memory.chat_memory.add_ai_message(entry.content)
+
         agent = langchain.agents.OpenAIFunctionsAgent(llm=llm, tools=tools, prompt=prompt)
         agent_executor: langchain.agents.AgentExecutor = langchain.agents.AgentExecutor.from_agent_and_tools(
             tools=tools,

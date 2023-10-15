@@ -18,6 +18,11 @@ RUN pip install poetry \
 
 COPY bin /opt/app/bin
 COPY lib /opt/app/lib
+
+COPY alembic /opt/app/alembic
+COPY alembic.ini /opt/app/alembic.ini
+
 COPY entrypoint.sh /opt/app/entrypoint.sh
 
 RUN chmod +x /opt/app/entrypoint.sh
+ENTRYPOINT ["/opt/app/entrypoint.sh"]
