@@ -19,10 +19,6 @@ if config.config_file_name is not None:
 
 config.set_main_option("sqlalchemy.url", app_settings.Settings().postgres.dsn)
 
-print("BASE: ", orm_models.Base.metadata.schema)
-for t in orm_models.Base.metadata.sorted_tables:
-    print(t.name)
-
 target_metadata = orm_models.Base.metadata
 
 
