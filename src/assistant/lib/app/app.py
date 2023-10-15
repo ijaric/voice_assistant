@@ -99,7 +99,6 @@ class Application:
         agent_tools = agent_functions.OpenAIFunctions(
             repository=embedding_repository, pg_async_session=postgres_client.get_async_session()
         )
-        agent_tools = None
         tts_yandex_repository = tts.TTSYandexRepository(
             tts_settings=app_split_settings.TTSYandexSettings(),
             client=http_yandex_tts_client,
@@ -128,7 +127,7 @@ class Application:
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
-        
+
         agent_service = agent_services.AgentService(
             settings=settings, chat_repository=chat_history_repository, tools=agent_tools
         )
@@ -157,7 +156,7 @@ class Application:
         )
 
         # Routes
-        fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])        
+        fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
         fastapi_app.include_router(voice_response_handler, prefix="/api/v1/voice", tags=["voice"])
 
         application = Application(
