@@ -107,15 +107,15 @@ class Application:
         # Services
 
         logger.info("Initializing services")
-        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)
 
-        tts_service: tts.TTSService = tts.TTSService(  # type: ignore
+        tts_service: tts.TTSService = tts.TTSService(
             repositories={
                 models.VoiceModelProvidersEnum.YANDEX: tts_yandex_repository,
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
-        
+
         # Handlers
 
         logger.info("Initializing handlers")
@@ -126,6 +126,8 @@ class Application:
             stt=stt_service,
             # tts=tts_service,  # TODO
         ).router
+
+        tts_handler = api_v1_handlers.TTSHandler(tts=tts_service).router
 
         logger.info("Creating application")
 
@@ -140,6 +142,7 @@ class Application:
         # Routes
         fastapi_app.include_router(liveness_probe_handler, prefix="/api/v1/health", tags=["health"])
         fastapi_app.include_router(voice_response_handler, prefix="/api/v1/voice", tags=["voice"])
+        fastapi_app.include_router(tts_handler, prefix="/api/v1/tts", tags=["tts"])
 
         application = Application(
             settings=settings,
