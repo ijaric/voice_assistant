@@ -73,13 +73,12 @@ class AgentService:
 
         request_chat_history = models.RequestChatHistory(session_id=session_id)
         chat_history_source = await self.chat_repository.get_messages_by_sid(request_chat_history)
-        chat_history.append(langchain.schema.HumanMessage(content="Hi there!"))
         for entry in chat_history_source:
             print("ENTRY: ", entry)
-            if entry.content["role"] == "user":
-                chat_history.append(langchain.schema.HumanMessage(content=entry.content["content"]))
-            elif entry.content["role"] == "agent":
-                chat_history.append(langchain.schema.AIMessage(content=entry.content["content"]))
+            if entry.role == "user":
+                chat_history.append(langchain.schema.HumanMessage(content=entry.content))
+            elif entry.role == "agent":
+                chat_history.append(langchain.schema.AIMessage(content=entry.content))
 
         # memory = langchain.memory.ConversationBufferMemory(memory_key=chat_history_name,chat_memory=chat_history)
 
@@ -118,8 +117,10 @@ class AgentService:
 
         agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=True)
         print("CH:", type(chat_history), chat_history)
+        chat_history = []  # temporary disable chat_history
         response = await agent_executor.ainvoke({"input": request.text, "chat_history": chat_history})
         print("AI RESPONSE:", response)
+
         user_request = models.RequestChatMessage(
             session_id=session_id,
             user_id=request.user_id,
