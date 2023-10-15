@@ -4,8 +4,8 @@ import uuid
 import langchain.agents
 import langchain.agents.format_scratchpad
 import langchain.agents.output_parsers
-import langchain.chat_models
 import langchain.chains
+import langchain.chat_models
 import langchain.memory
 import langchain.memory.chat_memory
 import langchain.prompts
@@ -30,9 +30,12 @@ class AgentService:
         self.chat_repository = chat_repository
         self.logger = logging.getLogger(__name__)
 
-
     async def send_message_request(self, request: str, system_prompt: str):
-        prompt = langchain.prompts.ChatPromptTemplate.from_messages([("system", system_prompt),])
+        prompt = langchain.prompts.ChatPromptTemplate.from_messages(
+            [
+                ("system", system_prompt),
+            ]
+        )
         llm = langchain.chat_models.ChatOpenAI(
             temperature=self.settings.openai.agent_temperature,
             openai_api_key=self.settings.openai.api_key.get_secret_value(),
@@ -40,8 +43,6 @@ class AgentService:
         chain = langchain.chains.LLMChain(llm=llm, prompt=prompt)
         result = await chain.ainvoke({"input": request})
         return result["text"]
-
-
 
     async def process_request(self, request: models.AgentCreateRequestModel) -> models.AgentCreateResponseModel:
         # Get session ID
@@ -51,7 +52,7 @@ class AgentService:
         session_id = await self.chat_repository.get_last_session_id(session_request)
         if not session_id:
             session_id = uuid.uuid4()
-        await self.send_message_request(request='test', system_prompt="test")
+        await self.send_message_request(request="test", system_prompt="test")
 
         # Declare tools (OpenAI functions)
         tools = [
@@ -87,8 +88,7 @@ class AgentService:
                     """1. Translate each inbound request into English language. Before calling any functions.
 2. You are movie expert with a vast knowledge base about movies and their related aspects.
 3. Answer always in Russian language.
-4. Be concise. You answer must be within 100-150 words."""
-
+4. Be concise. You answer must be within 100-150 words.""",
                 ),
                 langchain.prompts.MessagesPlaceholder(variable_name=chat_history_name),
                 ("user", "{input}"),

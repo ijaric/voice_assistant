@@ -132,7 +132,6 @@ class Application:
             settings=settings, chat_repository=chat_history_repository, tools=agent_tools
         )
 
-
         # Handlers
 
         logger.info("Initializing handlers")
