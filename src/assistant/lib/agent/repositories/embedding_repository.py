@@ -1,7 +1,6 @@
 import logging
 import typing
 
-import langchain.chat_models
 import openai
 import openai.error
 
@@ -40,25 +39,3 @@ class EmbeddingRepository:
 
         except openai.error.OpenAIError:
             self.logger.exception("Failed to get async embedding for: %s", text)
-
-
-class LlmRepository:
-    """A service for getting embeddings from OpenAI."""
-
-    def __init__(self, settings: app_settings.Settings) -> None:
-        """Initialize the service with an OpenAI API key."""
-        self.llm = langchain.chat_models.ChatOpenAI(
-            temperature=0.7,
-            openai_api_key=self.settings.openai.api_key.get_secret_value()
-        )
-
-    async def get_chat_response(self, request: str, prompt: str) -> str:
-        """Get the embedding for a given text."""
-        prompt = langchain.prompts.ChatPromptTemplate.from_messages(
-            [
-                ("system", prompt),
-            ]
-        )
-        chain = prompt | self.llm
-        response = await chain.ainvoke({"input": request})
-        return response.content
