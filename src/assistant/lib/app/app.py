@@ -14,6 +14,9 @@ import lib.clients as clients
 import lib.models as models
 import lib.stt as stt
 import lib.tts as tts
+import lib.agent.repositories as agent_repositories
+import lib.agent.repositories.openai_functions as agent_functions
+import lib.agent.services as agent_services
 
 logger = logging.getLogger(__name__)
 
@@ -89,7 +92,8 @@ class Application:
 
         logger.info("Initializing repositories")
         stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
-        chat_history_repository = agent.ChatHistoryRepository(pg_async_session=postgres_client.get_async_session())
+        chat_history_repository = agent_repositories.ChatHistoryRepository(pg_async_session=postgres_client.get_async_session())
+        embedding_repository = agent_repositories.EmbeddingRepository(settings)
 
         tts_yandex_repository = tts.TTSYandexRepository(
             tts_settings=app_split_settings.TTSYandexSettings(),
@@ -101,14 +105,21 @@ class Application:
             is_models_from_api=True,
         )
 
+
         # Caches
 
         logger.info("Initializing caches")
 
+        # Tools
+
+        agent_tools = agent_functions.OpenAIFunctions(repository=embedding_repository, pg_async_session=postgres_client.get_async_session())
+
         # Services
 
         logger.info("Initializing services")
-        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
+
+
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)   # type: ignore
 
         tts_service: tts.TTSService = tts.TTSService(  # type: ignore
             repositories={
@@ -116,6 +127,9 @@ class Application:
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
+
+        agent_service: agent_services.AgentService(settings=settings, chat_repository=chat_history_repository)
+        # agent_service: agent_services.AgentService(settings=settings, chat_repository=chat_history_repository, tools=agent_tools)
 
         # Handlers
 
@@ -127,6 +141,7 @@ class Application:
         voice_response_handler = api_v1_handlers.VoiceResponseHandler(
             stt=stt_service,
             tts=tts_service,
+            agent=agent_services,
         ).router
 
         logger.info("Creating application")

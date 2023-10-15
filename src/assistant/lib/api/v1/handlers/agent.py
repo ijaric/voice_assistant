@@ -2,7 +2,7 @@ import uuid
 
 import fastapi
 
-import lib.agent as agent
+import lib.agent.repositories as agent_repositories
 import lib.models as models
 
 
