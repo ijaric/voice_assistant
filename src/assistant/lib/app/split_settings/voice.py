@@ -14,7 +14,7 @@ class VoiceSettings(pydantic_settings.BaseSettings):
 
     max_input_seconds: int = 30
     max_input_size: int = 5120  # 5MB
-    available_formats: str = "wav,mp3,ogg"
+    available_formats: str = "wav,mp3,ogg,oga"
 
     @pydantic.field_validator("available_formats")
     def validate_available_formats(cls, v: str) -> list[str]:

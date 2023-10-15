@@ -17,3 +17,4 @@ class OpenaiSettings(pydantic_settings.BaseSettings):
     )
     stt_model: str = "whisper-1"
     agent_temperature: float = 0.7
+    model: str = "gpt-3.5-turbo-0613"
