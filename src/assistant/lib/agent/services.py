@@ -11,17 +11,22 @@ import langchain.chat_models
 import langchain.prompts
 import langchain.schema
 import langchain.tools.render
+import langchain.memory
+import langchain.memory.chat_memory
 
 import lib.models as models
 import lib.agent.openai_functions as openai_functions
 import lib.app.settings as app_settings
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import lib.agent.chat_repository as _chat_repository
 
 
 class AgentService:
-    def __init__(self, settings: app_settings.Settings, tools: openai_functions.OpenAIFunctions) -> None:
+    def __init__(
+        self,
+        settings: app_settings.Settings,
+        tools: openai_functions.OpenAIFunctions,
+        chat_repository: _chat_repository.ChatHistoryRepository,
+    ) -> None:
         self.settings = settings
         self.tools = tools
         self.llm = langchain.chat_models.ChatOpenAI(

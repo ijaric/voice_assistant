@@ -23,6 +23,28 @@ class OpenAIFunctions:
         self.pg_async_session = pg_async_session
         self.repository = repository
 
+    @langchain.agents.tool
+    async def artem_get_movie_by_description(self, description: str) -> list[models.Movie] | None:
+        """Provide a movie data by description."""
+
+        self.logger.info("Request to get movie by description: %s", description)
+        embedded_description = await self.repository.aget_embedding(description)
+        try:
+            async with self.pg_async_session() as session:
+                result: list[models.Movie] = []
+                stmt = (
+                    sa.select(orm_models.FilmWork)
+                    .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))
+                    .limit(5)
+                )
+                response = await session.execute(stmt)
+                neighbours = response.scalars()
+                for neighbour in neighbours:
+                    result.append(models.Movie(**neighbour.__dict__))
+                return result
+        except sqlalchemy.exc.SQLAlchemyError as error:
+            self.logger.exception("Error: %s", error)
+
     async def get_movie_by_description(self, description: str) -> list[models.Movie] | None:
         """Provide a movie data by description."""
 
