@@ -117,7 +117,7 @@ class Application:
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
-        
+
         # Handlers
 
         logger.info("Initializing handlers")
@@ -127,7 +127,7 @@ class Application:
         # TODO: объявить сервисы tts и openai и добавить их в voice_response_handler
         voice_response_handler = api_v1_handlers.VoiceResponseHandler(
             stt=stt_service,
-            # tts=tts_service,  # TODO
+            tts=tts_service,
         ).router
 
         logger.info("Creating application")

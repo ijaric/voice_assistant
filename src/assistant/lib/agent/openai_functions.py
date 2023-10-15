@@ -36,18 +36,19 @@ class OpenAIFunctions:
                     .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))
                     .limit(5)
                 )
-                neighbours = session.scalars(stmt)
-                for neighbour in await neighbours:
+                response = await session.execute(stmt)
+                neighbours = response.scalars()
+                for neighbour in neighbours:
                     result.append(models.Movie(**neighbour.__dict__))
                 return result
         except sqlalchemy.exc.SQLAlchemyError as error:
             self.logger.exception("Error: %s", error)
 
     @langchain.agents.tool
-    def get_movie_by_id(self, id: uuid.UUID) -> models.Movie | None:
+    def get_movie_by_id(self, id: uuid.UUID = None) -> models.Movie | None:
         """Provide a movie data by movie id."""
-        self.logger.info("Request to get movie by id: %s", id)
-        return None
+        # self.logger.info("Request to get movie by id: %s", id)
+        return f"hello world {id}"
 
     @langchain.agents.tool
     def get_similar_movies(self, id: uuid.UUID) -> list[models.Movie] | None:

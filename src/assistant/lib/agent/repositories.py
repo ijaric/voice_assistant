@@ -26,7 +26,7 @@ class EmbeddingRepository:
             )  # type: ignore[reportGeneralTypeIssues]
             return models.Embedding(**response["data"][0]["embedding"])
         except openai.error.OpenAIError:
-            self.logger.exception("Failed to get async embedding for: %s", text)
+            self.logger.exception("Failed to get sync embedding for: %s", text)
 
     async def aget_embedding(self, text: str, model: str = "text-embedding-ada-002") -> models.Embedding | None:
         """Get the embedding for a given text.[Async]"""

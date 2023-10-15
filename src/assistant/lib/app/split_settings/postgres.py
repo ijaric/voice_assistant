@@ -41,4 +41,4 @@ class PostgresSettings(pydantic_settings.BaseSettings):
 
     @property
     def dsn_as_safe_url(self) -> str:
-        return f"{self.driver}://{self.user}:***@{self.host}:{self.port}"
+        return f"{self.driver}://{self.user}:***@{self.host}:{self.port}/{self.db_name}"
