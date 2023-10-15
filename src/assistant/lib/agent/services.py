@@ -67,27 +67,23 @@ class AgentService:
 
         llm = langchain.chat_models.ChatOpenAI(temperature=self.settings.openai.agent_temperature, openai_api_key=self.settings.openai.api_key.get_secret_value())
 
-        chat_history = langchain.memory.ChatMessageHistory()
-        # chat_history = []
+        # chat_history = langchain.memory.ChatMessageHistory()
+        chat_history = []
         chat_history_name = f"{chat_history=}".partition("=")[0]
+
         request_chat_history = models.RequestChatHistory(session_id=session_id)
         chat_history_source = await self.chat_repository.get_messages_by_sid(request_chat_history)
+        chat_history.append(langchain.schema.HumanMessage(content="Hi there!"))
         for entry in chat_history_source:
-            # chat_history.append(langchain.schema.messages.HumanMessage(content=first_question))
-            # chat_history.append(langchain.schema.messages.AIMessage(content=first_result["output"]))
-
+            print("ENTRY: ", entry)
             if entry.content["role"] == "user":
-                chat_history.append(langchain.schema.messages.HumanMessage(content=entry.content["content"]))
+                chat_history.append(langchain.schema.HumanMessage(content=entry.content["content"]))
             elif entry.content["role"] == "agent":
-                chat_history.append(langchain.schema.messages.AIMessage(content=entry.content["content"]))
+                chat_history.append(langchain.schema.AIMessage(content=entry.content["content"]))
 
-        # chat_history = [entry.model_dump() for entry in chat_history_source]
-        memory_buffer = langchain.memory.ConversationBufferMemory(memory_key=chat_history_name,chat_memory=chat_history)
+        # memory = langchain.memory.ConversationBufferMemory(memory_key=chat_history_name,chat_memory=chat_history)
 
         print("CHAT HISTORY:", chat_history)
-
-        # chat_history_name = f"{chat_history=}".partition("=")[0]
-
 
         prompt = langchain.prompts.ChatPromptTemplate.from_messages(
             [
@@ -118,7 +114,10 @@ class AgentService:
             | langchain.agents.output_parsers.OpenAIFunctionsAgentOutputParser()
         )
 
-        agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=True, memory=memory_buffer)
+        print("AGENT:", agent)
+
+        agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=True)
+        print("CH:", type(chat_history), chat_history)
         response = await agent_executor.ainvoke({"input": request.text, "chat_history": chat_history})
         print("AI RESPONSE:", response)
         user_request = models.RequestChatMessage(

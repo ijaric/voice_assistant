@@ -39,6 +39,7 @@ pgvector = "^0.2.3"
 python-magic = "^0.4.27"
 openai = "^0.28.1"
 python-multipart = "^0.0.6"
+langchain = "^0.0.314"
 
 [tool.poetry.dev-dependencies]
 black = "^23.7.0"
