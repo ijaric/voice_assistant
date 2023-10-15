@@ -31,3 +31,14 @@ class TTSService:
             if voice_models.models:
                 response_models.extend(voice_models.models)
         return response_models
+
+    async def get_all_models(self) -> list[_models.AVAILABLE_MODELS_TYPE]:
+        response_models: list[_models.AVAILABLE_MODELS_TYPE] = []
+        for repository in self.repositories.values():
+            response = await repository.voice_models
+            for model in response.models:
+                model.languages = [  # type: ignore
+                    _models.BaseLanguageCodesEnum[language.name] for language in model.languages
+                ]
+                response_models.append(model)
+        return response_models

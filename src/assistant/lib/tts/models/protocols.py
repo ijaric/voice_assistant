@@ -4,6 +4,10 @@ import lib.models as models
 
 
 class TTSRepositoryProtocol(typing.Protocol):
+    @property
+    async def voice_models(self) -> models.LIST_VOICE_MODELS_TYPE:
+        raise NotImplementedError
+
     async def get_audio_as_bytes(self, request: models.TTSCreateRequestModel) -> models.TTSCreateResponseModel:
         ...
 
