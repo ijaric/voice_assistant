@@ -6,6 +6,9 @@ import typing
 import fastapi
 import uvicorn
 
+import lib.agent.repositories as agent_repositories
+import lib.agent.repositories.openai_functions as agent_functions
+import lib.agent.services as agent_services
 import lib.api.v1.handlers as api_v1_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings
@@ -89,7 +92,13 @@ class Application:
 
         logger.info("Initializing repositories")
         stt_repository: stt.STTProtocol = stt.OpenaiSpeechRepository(settings=settings)
-
+        chat_history_repository = agent_repositories.ChatHistoryRepository(
+            pg_async_session=postgres_client.get_async_session()
+        )
+        embedding_repository = agent_repositories.EmbeddingRepository(settings=settings)
+        agent_tools = agent_functions.OpenAIFunctions(
+            repository=embedding_repository, pg_async_session=postgres_client.get_async_session()
+        )
         tts_yandex_repository = tts.TTSYandexRepository(
             tts_settings=app_split_settings.TTSYandexSettings(),
             client=http_yandex_tts_client,
@@ -104,18 +113,25 @@ class Application:
 
         logger.info("Initializing caches")
 
+        # Tools
+
         # Services
 
         logger.info("Initializing services")
-        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)  # type: ignore
 
-        tts_service: tts.TTSService = tts.TTSService(  # type: ignore
+        stt_service: stt.SpeechService = stt.SpeechService(repository=stt_repository)
+
+        tts_service: tts.TTSService = tts.TTSService(
             repositories={
                 models.VoiceModelProvidersEnum.YANDEX: tts_yandex_repository,
                 models.VoiceModelProvidersEnum.ELEVEN_LABS: tts_eleven_labs_repository,
             },
         )
-        
+
+        agent_service = agent_services.AgentService(
+            settings=settings, chat_repository=chat_history_repository, tools=agent_tools
+        )
+
         # Handlers
 
         logger.info("Initializing handlers")
@@ -124,7 +140,8 @@ class Application:
         # TODO: объявить сервисы tts и openai и добавить их в voice_response_handler
         voice_response_handler = api_v1_handlers.VoiceResponseHandler(
             stt=stt_service,
-            # tts=tts_service,  # TODO
+            tts=tts_service,
+            agent=agent_service,
         ).router
 
         logger.info("Creating application")

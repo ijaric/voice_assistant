@@ -13,6 +13,6 @@
     "commit-msg": "commitlint"
   },
   "scripts": {
-    "prepare-husky": "husky install"
+    "prepare-husky": "huskyy install"
   }
 }

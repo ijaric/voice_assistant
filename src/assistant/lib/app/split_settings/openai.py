@@ -16,3 +16,4 @@ class OpenaiSettings(pydantic_settings.BaseSettings):
         default=..., validation_alias=pydantic.AliasChoices("api_key", "openai_api_key")
     )
     stt_model: str = "whisper-1"
+    agent_temperature: float = 0.7
