@@ -54,7 +54,6 @@ class ChatHistoryRepository:
                     .filter_by(session_id=request.session_id)
                     .order_by(orm_models.ChatHistory.created.asc())
                 )
-                print("get_messages_by_sid:", statement)
                 result = await session.execute(statement)
                 for row in result.scalars().all():
                     # TODO: Было бы интересно понять почему pyright ругается ниже и как правильно вызывать компоненты
