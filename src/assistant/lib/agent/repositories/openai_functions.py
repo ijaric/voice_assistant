@@ -22,7 +22,7 @@ class OpenAIFunctions:
         self.repository = repository
 
     async def get_movie_by_description(self, description: str) -> list[models.Movie] | None:
-        """Provide a movie data by description."""
+        """Use this function to find data about a movie by movie's description."""
 
         self.logger.info("Request to get movie by description: %s", description)
         embedded_description = await self.repository.aget_embedding(description)

@@ -59,7 +59,7 @@ class AgentService:
                 name="GetMovieByDescription",
                 func=self.tools.get_movie_by_description,
                 coroutine=self.tools.get_movie_by_description,
-                description="Get a movie by description",
+                description="Use this function to find data about a movie by movie's description",
             ),
         ]
 
@@ -84,7 +84,11 @@ class AgentService:
             [
                 (
                     "system",
-                    "Act as an advanced AI assistant with extensive capabilities, you have a vast knowledge base about movies and their related aspects. If you are asked about a movie, please use provided functions to retrive data about movies. You can receive a question in any language. Translate it into English. If you don't know the answer, just say that you don't know, don't try to make up an answer. Be concise. ",
+                    """1. Translate each inbound request into English language. Before calling any functions.
+2. You are movie expert with a vast knowledge base about movies and their related aspects.
+3. Answer always in Russian language.
+4. Be concise. You answer must be within 100-150 words."""
+
                 ),
                 langchain.prompts.MessagesPlaceholder(variable_name=chat_history_name),
                 ("user", "{input}"),
@@ -109,7 +113,7 @@ class AgentService:
             | langchain.agents.output_parsers.OpenAIFunctionsAgentOutputParser()
         )
 
-        agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=False)
+        agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=True)
         chat_history = []  # temporary disable chat_history
         response = await agent_executor.ainvoke({"input": translate_text, "chat_history": chat_history})
 
