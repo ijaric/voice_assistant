@@ -5,9 +5,9 @@ import sqlalchemy.exc
 import sqlalchemy.ext.asyncio as sa_asyncio
 
 import lib.agent.repositories as repositories
+import lib.app.settings as app_settings
 import lib.models as models
 import lib.orm_models as orm_models
-import lib.app.settings as app_settings
 
 
 class OpenAIFunctions:
@@ -34,7 +34,7 @@ class OpenAIFunctions:
                 result: list[models.Movie] = []
                 stmt = (
                     sa.select(orm_models.FilmWork)
-                    .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))
+                    .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))  # type: ignore[reportOptionalMemberAccess]
                     .limit(self.settings.agent.embeddings_limit)
                 )
                 response = await session.execute(stmt)

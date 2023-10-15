@@ -33,7 +33,7 @@ class EmbeddingRepository:
             response: dict[str, typing.Any] = await openai.Embedding.acreate(
                 input=text,
                 model=model,
-            )  # type: ignore[reportGeneralTypeIssues]            
+            )  # type: ignore[reportGeneralTypeIssues]
             return models.Embedding(root=response["data"][0]["embedding"])
 
         except openai.error.OpenAIError:
