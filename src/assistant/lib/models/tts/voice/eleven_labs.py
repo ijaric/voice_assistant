@@ -7,7 +7,6 @@ import lib.models.tts.voice.languages as models_tts_languages
 
 
 class ElevenLabsVoiceModel(models_tts_base.BaseVoiceModel):
-    model_config = pydantic.ConfigDict(use_enum_values=True)
     voice_id: str
     voice_name: str | None = None
     languages: list[models_tts_languages.LANGUAGE_CODES_ENUM_TYPE]
