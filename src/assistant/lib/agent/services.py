@@ -2,13 +2,13 @@ import asyncio
 import logging
 import uuid
 
+import fastapi
 import langchain.agents
 import langchain.agents.format_scratchpad
 import langchain.agents.output_parsers
 import langchain.chat_models
 import langchain.prompts
-import langchain.schema.agent
-import langchain.schema.messages
+import langchain.schema
 import langchain.tools.render
 
 import assistant.lib.models.movies as movies
@@ -24,44 +24,36 @@ class AgentService:
         self.settings = settings
         self.tools = tools
 
-    async def process_request(self, request: str, chat_history: list[langchain.schema.messages.Message]) -> str:
-        llm = langchain.chat_models.ChatOpenAI(temperature=0.7, openai_api_key=self.settings.openai.api_key)
-        tools = [self.tools.get_movie_by_description, self.tools.get_movie_by_id, self.tools.get_similar_movies]
+    async def process_request(self, request: models.AgentCreateRequestModel) -> models.AgentCreateResponseModel:
 
-        chat_history = []
-        chat_history_name = f"{chat_history=}".partition("=")[0]
+        result = await self.tools.get_movie_by_description(request.text)
+
+        if len(result) == 0:
+            raise fastapi.HTTPException(status_code=404, detail="Movies not found")
+
+        # llm = langchain.chat_models.ChatOpenAI(
+        #     temperature=self.settings.openai.agent_temperature,
+        #     openai_api_key=self.settings.openai.api_key.get_secret_value()
+        # )
+
+        content_films = "\n".join(film.get_movie_info_line() for film in result)
+
+        system_prompt = (
+            "You are a cinema expert. "
+            f"Here are the movies I found for you: {content_films}"
+            "Listen to the question and answer it based on the information above."
+        )
+
         prompt = langchain.prompts.ChatPromptTemplate.from_messages(
             [
-                (
-                    "system",
-                    "You are very powerful assistant. If you are asked about movies you will you provided functions.",
-                ),
-                langchain.prompts.MessagesPlaceholder(variable_name=chat_history_name),
-                ("user", "{input}"),
-                langchain.prompts.MessagesPlaceholder(variable_name="agent_scratchpad"),
+                ("system", system_prompt),
             ]
         )
+        chain = prompt | self.llm
+        response = await chain.ainvoke({"input": request.text})
+        response_model = models.AgentCreateResponseModel(text=response.content)
+        return response_model
 
-        llm_with_tools = llm.bind(
-            functions=[langchain.tools.render.format_tool_to_openai_function(tool) for tool in tools]
-        )
-
-        chat_history = []
-
-        agent = (
-            {
-                "input": lambda _: _["input"],
-                "agent_scratchpad": lambda _: langchain.agents.format_scratchpad.format_to_openai_functions(
-                    _["intermediate_steps"]
-                ),
-                "chat_history": lambda _: _["chat_history"],
-            }
-            | prompt
-            | llm_with_tools
-            | langchain.agents.output_parsers.OpenAIFunctionsAgentOutputParser()
-        )
-
-        agent_executor = langchain.agents.AgentExecutor(agent=agent, tools=tools, verbose=True)
 
         return await agent_executor.ainvoke({"input": first_question, "chat_history": chat_history})
 

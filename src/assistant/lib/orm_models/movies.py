@@ -43,8 +43,10 @@ class FilmWork(base_models.Base):
     title: sa_orm.Mapped[str] = sa_orm.mapped_column()
     description: sa_orm.Mapped[str] = sa_orm.mapped_column(nullable=True)
     creation_date: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(nullable=True)
-    file_path: sa_orm.Mapped[str] = sa_orm.mapped_column(nullable=True)
     rating: sa_orm.Mapped[float] = sa_orm.mapped_column(nullable=True)
+    runtime: sa_orm.Mapped[int] = sa_orm.mapped_column(nullable=False)
+    budget: sa_orm.Mapped[int] = sa_orm.mapped_column(default=0)
+    imdb_id: sa_orm.Mapped[str] = sa_orm.mapped_column(nullable=False)
     type: sa_orm.Mapped[str] = sa_orm.mapped_column()
     created: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(
         sa.DateTime(timezone=True), server_default=sa_sql.func.now()
@@ -52,7 +54,7 @@ class FilmWork(base_models.Base):
     modified: sa_orm.Mapped[datetime.datetime] = sa_orm.mapped_column(
         sa.DateTime(timezone=True), server_default=sa_sql.func.now(), onupdate=sa_sql.func.now()
     )
-    embedding: sa_orm.Mapped[list[float]] = sa_orm.mapped_column(pgvector.sqlalchemy.Vector(1536))
+    embeddings: sa_orm.Mapped[list[float]] = sa_orm.mapped_column(pgvector.sqlalchemy.Vector(1536))
     genres: sa_orm.Mapped[list[Genre]] = sa_orm.relationship(secondary="genre_film_work")
 
 

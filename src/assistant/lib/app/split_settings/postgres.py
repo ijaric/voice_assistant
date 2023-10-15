@@ -37,7 +37,7 @@ class PostgresSettings(pydantic_settings.BaseSettings):
     @property
     def dsn(self) -> str:
         password = self.password.get_secret_value()
-        return f"{self.driver}://{self.user}:{password}@{self.host}:{self.port}"
+        return f"{self.driver}://{self.user}:{password}@{self.host}:{self.port}/{self.db_name}"
 
     @property
     def dsn_as_safe_url(self) -> str:

@@ -2,13 +2,13 @@ import logging
 import uuid
 
 import langchain.agents
-import orm_models
 import sqlalchemy as sa
 import sqlalchemy.exc
 import sqlalchemy.ext.asyncio as sa_asyncio
 
 import lib.agent.repositories as repositories
 import lib.models as models
+import lib.orm_models as orm_models
 
 
 class OpenAIFunctions:
@@ -23,7 +23,6 @@ class OpenAIFunctions:
         self.pg_async_session = pg_async_session
         self.repository = repository
 
-    @langchain.agents.tool
     async def get_movie_by_description(self, description: str) -> list[models.Movie] | None:
         """Provide a movie data by description."""
 
@@ -34,7 +33,7 @@ class OpenAIFunctions:
                 result: list[models.Movie] = []
                 stmt = (
                     sa.select(orm_models.FilmWork)
-                    .order_by(orm_models.FilmWork.embedding.cosine_distance(embedded_description))
+                    .order_by(orm_models.FilmWork.embeddings.cosine_distance(embedded_description.root))
                     .limit(5)
                 )
                 neighbours = session.scalars(stmt)

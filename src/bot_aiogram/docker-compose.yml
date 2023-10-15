@@ -12,6 +12,22 @@ services:
     networks:
       - tg_bot_network
 
+  redis:
+    image: redis:7.0.11
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:${REDIS_PORT}:${REDIS_PORT}"
+    command: redis-server --bind 0.0.0.0 --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - tg_bot_network
+
+volumes:
+    redis_data:
+
 networks:
   tg_bot_network:
     driver: bridge
