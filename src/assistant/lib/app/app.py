@@ -6,7 +6,6 @@ import typing
 import fastapi
 import uvicorn
 
-import lib.agent as agent
 import lib.api.v1.handlers as api_v1_handlers
 import lib.app.errors as app_errors
 import lib.app.settings as app_settings

@@ -15,16 +15,15 @@ import langchain.memory
 import langchain.memory.chat_memory
 
 import lib.models as models
-import lib.agent.openai_functions as openai_functions
+import lib.agent.repositories as lib_agent_repositories
 import lib.app.settings as app_settings
-import lib.agent.chat_repository as _chat_repository
+import lib.agent.repositories.chat_repository as _chat_repository
 
 
 class AgentService:
     def __init__(
         self,
         settings: app_settings.Settings,
-        tools: openai_functions.OpenAIFunctions,
         chat_repository: _chat_repository.ChatHistoryRepository,
     ) -> None:
         self.settings = settings

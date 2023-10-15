@@ -7,7 +7,7 @@ import lib.models as models
 
 
 class AgentHandler:
-    def __init__(self, chat_history_repository: agent.ChatHistoryRepository):
+    def __init__(self, chat_history_repository: agent_repositories.ChatHistoryRepository):
         self.chat_history_repository = chat_history_repository
         self.router = fastapi.APIRouter()
         self.router.add_api_route(

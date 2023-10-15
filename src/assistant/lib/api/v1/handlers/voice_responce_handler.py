@@ -28,6 +28,8 @@ class VoiceResponseHandler:
 
     async def voice_response(
         self,
+        channel: str,
+        user_id: str,
         voice: bytes = fastapi.File(...),
     ) -> fastapi.responses.StreamingResponse:
         voice_text: str = await self.stt.recognize(voice)
